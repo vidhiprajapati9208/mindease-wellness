@@ -28,6 +28,23 @@ app.use('/api/appointments', appointmentRoutes);
 app.use('/api/blogs', blogRoutes);
 app.use('/api/contact', contactRoutes);
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    system: 'MindEase Wellness System API',
+    status: 'online',
+    message: '🚀 MindEase Wellness API is running live!',
+    endpoints: {
+      health: '/api/health',
+      therapists: '/api/therapists',
+      blogs: '/api/blogs',
+      auth: '/api/auth'
+    },
+    database: getStatus() ? 'Connected (Atlas Cloud)' : 'Offline / Standby',
+    version: '1.0.0'
+  });
+});
+
 // Health check endpoint with Live DB Status
 app.get('/api/health', (req, res) => {
   res.json({
