@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-main: #060a17;
+    --bg-card: #0b132b;
+    --bg-card-sub: #0f1a36;
+    --bg-card-alt: #152244;
+    --bg-highlight: #1e2f5b;
+    --border-main: #1f2e54;
+  }
+
+  html.light {
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-sub: #f1f5f9;
+    --bg-card-alt: #e2e8f0;
+    --bg-highlight: #cbd5e1;
+    --border-main: #e2e8f0;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+}
+
+/* Light mode typography & UI overrides */
+html.light body {
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+html.light h1:not([class*="text-transparent"]),
+html.light h2:not([class*="text-transparent"]),
+html.light h3:not([class*="text-transparent"]),
+html.light h4:not([class*="text-transparent"]) {
+  color: #0f172a !important;
+}
+
+html.light strong.text-white,
+html.light span.text-white,
+html.light p.text-white {
+  color: #0f172a !important;
+}
+
+html.light .text-slate-100,
+html.light .text-slate-200,
+html.light .text-slate-300 {
+  color: #334155 !important;
+}
+
+html.light .text-slate-400 {
+  color: #64748b !important;
+}
+
+/* Form controls in light mode */
+html.light input:not([type="checkbox"]):not([type="radio"]),
+html.light select,
+html.light textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Action buttons with Cyan text must keep white text */
+html.light .bg-mindCyan,
+html.light .bg-mindCyan-hover,
+html.light button.bg-mindCyan *,
+html.light a.bg-mindCyan * {
+  color: #ffffff !important;
+}
+
+/* Light Mode shadows */
+html.light .bg-mindDark-900 {
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-main);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00a8e8;
+}
