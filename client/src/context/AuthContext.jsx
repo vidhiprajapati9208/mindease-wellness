@@ -5,22 +5,24 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('mindcare_user');
+    const saved = localStorage.getItem('mindease_user') || localStorage.getItem('mindcare_user');
     return saved ? JSON.parse(saved) : null;
   });
-  const [token, setToken] = useState(() => localStorage.getItem('mindcare_token') || null);
+  const [token, setToken] = useState(() => localStorage.getItem('mindease_token') || localStorage.getItem('mindcare_token') || null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (token) {
-      localStorage.setItem('mindcare_token', token);
+      localStorage.setItem('mindease_token', token);
     } else {
+      localStorage.removeItem('mindease_token');
       localStorage.removeItem('mindcare_token');
     }
 
     if (user) {
-      localStorage.setItem('mindcare_user', JSON.stringify(user));
+      localStorage.setItem('mindease_user', JSON.stringify(user));
     } else {
+      localStorage.removeItem('mindease_user');
       localStorage.removeItem('mindcare_user');
     }
   }, [token, user]);
@@ -87,6 +89,8 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setToken(null);
+    localStorage.removeItem('mindease_token');
+    localStorage.removeItem('mindease_user');
     localStorage.removeItem('mindcare_token');
     localStorage.removeItem('mindcare_user');
   };

@@ -1,7 +1,7 @@
 {
-  "name": "mindcare-server",
+  "name": "mindease-server",
   "version": "1.0.0",
-  "description": "Backend API for MindCare Wellness System",
+  "description": "Backend API for MindEase Wellness System",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

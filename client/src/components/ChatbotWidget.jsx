@@ -156,7 +156,7 @@ const ChatbotWidget = () => {
                 <div className="w-6 h-6 rounded-full bg-mindDark-800 flex items-center justify-center text-mindCyan">
                   <Sparkles className="w-3 h-3 animate-spin" />
                 </div>
-                <span>MindCare assistant is typing...</span>
+                <span>MindEase assistant is typing...</span>
               </div>
             )}
             <div ref={messagesEndRef} />

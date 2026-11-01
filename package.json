@@ -1,7 +1,7 @@
 {
   "name": "mindease-wellness",
   "version": "1.0.0",
-  "description": "MindCare Wellness System - Full Stack MERN Platform",
+  "description": "MindEase Wellness System - Full Stack MERN Platform",
   "main": "server/server.js",
   "scripts": {
     "server": "cd server && npm run dev",
@@ -10,8 +10,8 @@
     "install-all": "npm install && cd server && npm install && cd ../client && npm install",
     "seed": "cd server && node seed/seedData.js"
   },
-  "keywords": ["mindease", "mindcare", "mental-health", "mern", "react", "tailwind"],
-  "author": "MindCare Wellness Team",
+  "keywords": ["mindease", "mental-health", "mern", "react", "tailwind"],
+  "author": "MindEase Wellness Team",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^8.2.2"

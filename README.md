@@ -1,4 +1,4 @@
-# MindCare Wellness System 💙
+# MindEase Wellness System 💙
 **Full-Stack Mental Health & Online Wellness Platform (MERN Stack)**
 
 A modern, responsive, and secure digital wellness ecosystem designed to connect patients with certified therapists, streamline appointment booking, provide psychoeducational resources, and offer immediate interactive chatbot support.
@@ -33,7 +33,7 @@ A modern, responsive, and secure digital wellness ecosystem designed to connect 
    - Interactive article reader modal.
    - Newsletter subscription form.
 
-6. **MindCare AI Assistant (Chatbot)**:
+6. **MindEase AI Assistant (Chatbot)**:
    - Interactive floating assistant with compassionate replies, quick actions, and direct page routing.
 
 7. **Contact & Location Services**:
@@ -73,7 +73,7 @@ npm run dev
 
 | Role | Email | Password | Access |
 | :--- | :--- | :--- | :--- |
-| **Admin / Clinic Staff** | `admin@mindcare.com` (or `kp123@me.com`) | `admin123` | Clinic Roster, Master Schedule, Add Patients |
-| **Patient** | `patient@mindcare.com` | `patient123` | Book Appointments, View Blogs, AI Chat |
+| **Admin / Clinic Staff** | `admin@mindease.com` (or `kp123@me.com`) | `admin123` | Clinic Roster, Master Schedule, Add Patients |
+| **Patient** | `patient@mindease.com` | `patient123` | Book Appointments, View Blogs, AI Chat |
 
 *(Quick-login one-click buttons are also provided on the Login screen for smooth demonstrations!)*
