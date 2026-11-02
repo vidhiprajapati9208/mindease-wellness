@@ -111,8 +111,11 @@ const BookAppointment = () => {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 space-y-8">
       {/* Title & subtitle matching Fig 14.7 */}
       <div className="text-center space-y-3">
+        <div className="inline-block px-3.5 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-semibold uppercase tracking-wider mb-1">
+          Simple 3-Step Process
+        </div>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Book an <span className="text-mindCyan">Appointment</span>
+          Book an <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-pink-300">Appointment</span>
         </h1>
         <p className="text-slate-300 text-sm sm:text-base">
           Take the first step towards healing. Choose a time that works for you.
@@ -176,33 +179,33 @@ const BookAppointment = () => {
           )}
 
           {/* Step Tabs header */}
-          <div className="grid grid-cols-3 border-b border-mindDark-border pb-4 text-center text-xs sm:text-sm font-semibold">
+          <div className="grid grid-cols-3 border-b border-pink-500/20 pb-4 text-center text-xs sm:text-sm font-semibold">
             <div
               className={`pb-3 border-b-2 transition-all ${
                 step === 1
-                  ? 'border-mindCyan text-mindCyan font-bold'
+                  ? 'border-pink-500 text-pink-400 font-bold scale-105'
                   : 'border-transparent text-slate-400'
               }`}
             >
-              Basic Details
+              1. Basic Details
             </div>
             <div
               className={`pb-3 border-b-2 transition-all ${
                 step === 2
-                  ? 'border-mindCyan text-mindCyan font-bold'
+                  ? 'border-pink-500 text-pink-400 font-bold scale-105'
                   : 'border-transparent text-slate-400'
               }`}
             >
-              Schedule
+              2. Schedule & Slot
             </div>
             <div
               className={`pb-3 border-b-2 transition-all ${
                 step === 3
-                  ? 'border-mindCyan text-mindCyan font-bold'
+                  ? 'border-pink-500 text-pink-400 font-bold scale-105'
                   : 'border-transparent text-slate-400'
               }`}
             >
-              Confirmation
+              3. Confirmation
             </div>
           </div>
 
@@ -357,8 +360,8 @@ const BookAppointment = () => {
                       onClick={() => setFormData({ ...formData, time: slot })}
                       className={`py-2 px-3 rounded-xl text-xs font-semibold border transition-all ${
                         formData.time === slot
-                          ? 'bg-mindCyan text-white border-mindCyan shadow-sm'
-                          : 'bg-mindDark-950 text-slate-300 border-mindDark-border hover:border-slate-600'
+                          ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white border-pink-500 shadow-md shadow-pink-500/30 scale-105'
+                          : 'bg-mindDark-950 text-slate-300 border-pink-500/20 hover:border-pink-500/50'
                       }`}
                     >
                       {slot}
@@ -379,7 +382,7 @@ const BookAppointment = () => {
                 <button
                   type="button"
                   onClick={() => setStep(3)}
-                  className="px-8 py-2.5 rounded-xl bg-mindCyan hover:bg-mindCyan-hover text-white font-semibold text-sm transition-all shadow-md shadow-mindCyan/20 flex items-center gap-2"
+                  className="px-8 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-semibold text-sm transition-all shadow-md shadow-pink-500/30 hover:scale-105 active:scale-95 flex items-center gap-2"
                 >
                   <span>Review & Confirm</span>
                   <ArrowRight className="w-4 h-4" />
@@ -443,7 +446,7 @@ const BookAppointment = () => {
                   type="button"
                   disabled={isSubmitting}
                   onClick={handleConfirmBooking}
-                  className="px-8 py-3 rounded-xl bg-mindCyan hover:bg-mindCyan-hover text-white font-bold text-sm transition-all shadow-lg shadow-mindCyan/30 flex items-center gap-2"
+                  className="px-8 py-3 rounded-xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-bold text-sm transition-all shadow-lg shadow-pink-500/35 hover:scale-105 active:scale-95 flex items-center gap-2 cursor-pointer"
                 >
                   <CheckCircle2 className="w-5 h-5" />
                   <span>{isSubmitting ? 'Confirming...' : 'Confirm Appointment'}</span>

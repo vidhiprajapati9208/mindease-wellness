@@ -9,12 +9,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Col 1: Brand & About */}
           <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-mindCyan flex items-center justify-center text-white">
+            <Link to="/" className="flex items-center gap-2 group">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white shadow-md shadow-pink-500/25 group-hover:scale-105 transition-transform">
                 <Heart className="w-4 h-4 fill-white" />
               </div>
               <span className="text-xl font-bold text-white tracking-tight">
-                Mind<span className="text-mindCyan">Ease</span>
+                Mind<span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-500">Ease</span>
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed">
@@ -24,19 +24,19 @@ const Footer = () => {
             <div className="flex items-center gap-3 pt-2">
               <a
                 href="#message"
-                className="w-9 h-9 rounded-full bg-mindDark-850 hover:bg-mindCyan hover:text-white flex items-center justify-center text-slate-400 transition-colors border border-mindDark-border"
+                className="w-9 h-9 rounded-full bg-mindDark-850 hover:bg-pink-500 hover:text-white hover:border-pink-500 hover:scale-110 flex items-center justify-center text-slate-400 transition-all border border-mindDark-border shadow-sm"
               >
                 <MessageCircle className="w-4 h-4" />
               </a>
               <a
                 href="#share"
-                className="w-9 h-9 rounded-full bg-mindDark-850 hover:bg-mindCyan hover:text-white flex items-center justify-center text-slate-400 transition-colors border border-mindDark-border"
+                className="w-9 h-9 rounded-full bg-mindDark-850 hover:bg-pink-500 hover:text-white hover:border-pink-500 hover:scale-110 flex items-center justify-center text-slate-400 transition-all border border-mindDark-border shadow-sm"
               >
                 <Share2 className="w-4 h-4" />
               </a>
               <a
                 href="#web"
-                className="w-9 h-9 rounded-full bg-mindDark-850 hover:bg-mindCyan hover:text-white flex items-center justify-center text-slate-400 transition-colors border border-mindDark-border"
+                className="w-9 h-9 rounded-full bg-mindDark-850 hover:bg-pink-500 hover:text-white hover:border-pink-500 hover:scale-110 flex items-center justify-center text-slate-400 transition-all border border-mindDark-border shadow-sm"
               >
                 <Globe className="w-4 h-4" />
               </a>
@@ -118,16 +118,16 @@ const Footer = () => {
             </h4>
             <ul className="space-y-3.5 text-sm">
               <li className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-mindCyan shrink-0 mt-1" />
+                <MapPin className="w-4 h-4 text-pink-400 shrink-0 mt-1" />
                 <span>123 Wellness Avenue, Health District, NY 10001</span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-mindCyan shrink-0" />
+                <Phone className="w-4 h-4 text-pink-400 shrink-0" />
                 <span>+1 (800) 123-4567</span>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-mindCyan shrink-0" />
-                <a href="mailto:support@mindease.com" className="hover:text-white transition-colors">
+                <Mail className="w-4 h-4 text-pink-400 shrink-0" />
+                <a href="mailto:support@mindease.com" className="hover:text-pink-300 transition-colors">
                   support@mindease.com
                 </a>
               </li>
@@ -136,10 +136,10 @@ const Footer = () => {
         </div>
 
         {/* Bottom copyright */}
-        <div className="mt-12 pt-8 border-t border-mindDark-border/60 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        <div className="mt-12 pt-8 border-t border-pink-500/20 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <p>© 2026 MindEase Wellness. All rights reserved.</p>
           <p className="flex items-center gap-1">
-            Made with <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" /> for mental wellness
+            Made with <Heart className="w-3.5 h-3.5 text-pink-500 fill-pink-500 animate-pulse" /> for mental wellness
           </p>
         </div>
       </div>

@@ -7,8 +7,11 @@ const About = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
       {/* Header matching Fig 14.2 */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
+        <div className="inline-block px-3.5 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-semibold uppercase tracking-wider mb-1">
+          Our Core Mission
+        </div>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Our Story at <span className="text-mindCyan">MindEase</span>
+          Our Story at <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-pink-300">MindEase</span>
         </h1>
         <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
           We believe that seeking help is an act of courage. MindEase was founded on a simple principle: mental healthcare should be accessible, deeply compassionate, and safely confidential for everyone.

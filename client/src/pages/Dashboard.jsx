@@ -244,8 +244,8 @@ const Dashboard = () => {
       {/* 4 Stat Cards matching Fig 14.8 */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {/* Stat 1: Patients Today */}
-        <div className="bg-mindDark-900 border border-mindDark-border rounded-2xl p-5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+        <div className="bg-mindDark-900 border border-pink-500/20 rounded-2xl p-5 flex items-center gap-4 card-hover-lift shadow-lg shadow-pink-500/5">
+          <div className="w-12 h-12 rounded-xl bg-pink-500/15 border border-pink-500/30 text-pink-400 flex items-center justify-center shrink-0">
             <Users className="w-6 h-6" />
           </div>
           <div>
@@ -255,8 +255,8 @@ const Dashboard = () => {
         </div>
 
         {/* Stat 2: In Session */}
-        <div className="bg-mindDark-900 border border-mindDark-border rounded-2xl p-5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+        <div className="bg-mindDark-900 border border-pink-500/20 rounded-2xl p-5 flex items-center gap-4 card-hover-lift shadow-lg shadow-pink-500/5">
+          <div className="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0">
             <Activity className="w-6 h-6" />
           </div>
           <div>
@@ -266,8 +266,8 @@ const Dashboard = () => {
         </div>
 
         {/* Stat 3: Waiting Room */}
-        <div className="bg-mindDark-900 border border-mindDark-border rounded-2xl p-5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+        <div className="bg-mindDark-900 border border-pink-500/20 rounded-2xl p-5 flex items-center gap-4 card-hover-lift shadow-lg shadow-pink-500/5">
+          <div className="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 flex items-center justify-center shrink-0">
             <Clock className="w-6 h-6" />
           </div>
           <div>
@@ -277,8 +277,8 @@ const Dashboard = () => {
         </div>
 
         {/* Stat 4: Providers Active */}
-        <div className="bg-mindDark-900 border border-mindDark-border rounded-2xl p-5 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center shrink-0">
+        <div className="bg-mindDark-900 border border-pink-500/20 rounded-2xl p-5 flex items-center gap-4 card-hover-lift shadow-lg shadow-pink-500/5">
+          <div className="w-12 h-12 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center shrink-0">
             <CalendarDays className="w-6 h-6" />
           </div>
           <div>
@@ -289,11 +289,11 @@ const Dashboard = () => {
       </div>
 
       {/* Patient Roster Card matching Fig 14.8 */}
-      <div className="bg-mindDark-900 border border-mindDark-border rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+      <div className="bg-mindDark-900 border border-pink-500/20 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
         {/* Title + Add Patient Button */}
-        <div className="flex items-center justify-between flex-wrap gap-4 border-b border-mindDark-border/60 pb-5">
+        <div className="flex items-center justify-between flex-wrap gap-4 border-b border-pink-500/20 pb-5">
           <div className="flex items-center gap-2.5">
-            <FileText className="w-5 h-5 text-mindCyan" />
+            <FileText className="w-5 h-5 text-pink-400" />
             <h2 className="text-lg font-bold text-white">
               Detailed Patient Roster (Today)
             </h2>
@@ -301,7 +301,7 @@ const Dashboard = () => {
 
           <button
             onClick={() => setShowAddPatientModal(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-mindCyan hover:bg-mindCyan-hover text-white text-xs font-semibold shadow-md shadow-mindCyan/25 transition-all"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white text-xs font-semibold shadow-md shadow-pink-500/30 hover:scale-105 active:scale-95 transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>Add Patient</span>

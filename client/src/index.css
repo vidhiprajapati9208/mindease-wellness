@@ -4,32 +4,34 @@
 
 @layer base {
   :root {
-    --bg-main: #060a17;
-    --bg-card: #0b132b;
-    --bg-card-sub: #0f1a36;
-    --bg-card-alt: #152244;
-    --bg-highlight: #1e2f5b;
-    --border-main: #1f2e54;
+    /* Dark Mode: Luxury Velvet Midnight Plum */
+    --bg-main: #0c0612;
+    --bg-card: #160b1e;
+    --bg-card-sub: #200f2a;
+    --bg-card-alt: #2b1437;
+    --bg-highlight: #3d1a4e;
+    --border-main: #331540;
   }
 
   html.light {
-    --bg-main: #f8fafc;
+    /* Light Mode: Soothing Blush Petal & Rose White */
+    --bg-main: #fff5f7;
     --bg-card: #ffffff;
-    --bg-card-sub: #f1f5f9;
-    --bg-card-alt: #e2e8f0;
-    --bg-highlight: #cbd5e1;
-    --border-main: #e2e8f0;
+    --bg-card-sub: #fdf2f4;
+    --bg-card-alt: #fae5ea;
+    --bg-highlight: #f8cfd9;
+    --border-main: #fce7f3;
   }
 
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    transition: background-color 0.25s ease, color 0.25s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
 /* Light mode typography & UI overrides */
 html.light body {
-  background-color: #f8fafc;
+  background-color: #fff5f7;
   color: #1e293b;
 }
 
@@ -62,7 +64,7 @@ html.light select,
 html.light textarea {
   background-color: #ffffff !important;
   color: #0f172a !important;
-  border-color: #cbd5e1 !important;
+  border-color: #fbcfe8 !important;
 }
 
 html.light input::placeholder,
@@ -70,20 +72,24 @@ html.light textarea::placeholder {
   color: #94a3b8 !important;
 }
 
-/* Action buttons with Cyan text must keep white text */
+/* Action buttons with Pink keep white text */
 html.light .bg-mindCyan,
-html.light .bg-mindCyan-hover,
+html.light .bg-mindPink,
+html.light .bg-pink-500,
+html.light .bg-pink-600,
+html.light .bg-rose-500,
+html.light .bg-rose-600,
 html.light button.bg-mindCyan *,
 html.light a.bg-mindCyan * {
   color: #ffffff !important;
 }
 
-/* Light Mode shadows */
+/* Light Mode Card Shadows with gentle rose aura */
 html.light .bg-mindDark-900 {
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 10px 30px -4px rgba(236, 72, 153, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
 }
 
-/* Custom scrollbars */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -96,5 +102,24 @@ html.light .bg-mindDark-900 {
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #00a8e8;
+  background: #ec4899;
+}
+
+/* Interactive Animation Utility Classes */
+.card-hover-lift {
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-hover-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px -10px rgba(236, 72, 153, 0.25);
+}
+
+.text-gradient-rose {
+  background: linear-gradient(135deg, #f472b6 0%, #ec4899 50%, #f43f5e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glow-pink-pulse {
+  animation: pulseGlow 3s ease-in-out infinite;
 }

@@ -129,8 +129,11 @@ const Blog = () => {
       {/* Title & Search matching Fig 14.9 */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-3 max-w-xl">
+          <div className="inline-block px-3.5 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-semibold uppercase tracking-wider mb-1">
+            Psychoeducation & Articles
+          </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Mental Wellness <span className="text-mindCyan">Library</span>
+            Mental Wellness <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-pink-300">Library</span>
           </h1>
           <p className="text-slate-300 text-sm sm:text-base">
             Honest articles, actionable exercises, and supportive advice written by our licensed therapists.

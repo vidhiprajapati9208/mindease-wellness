@@ -28,8 +28,11 @@ const Services = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-20">
       {/* Header matching Fig 14.3 */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
+        <div className="inline-block px-3.5 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-semibold uppercase tracking-wider mb-1">
+          Specialized Offerings
+        </div>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Care <span className="text-mindCyan">Tailored</span> To You
+          Care <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-pink-300">Tailored</span> To You
         </h1>
         <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
           Healing isn't one-size-fits-all. Explore our specialized areas of support, designed with human empathy and professional integrity to help you wherever you currently are.

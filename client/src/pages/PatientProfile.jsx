@@ -87,7 +87,7 @@ const PatientProfile = () => {
         <div>
           <h1 className="text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
             <span>Welcome, {user?.name || 'Patient'}</span>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-mindDark-850 text-mindCyan border border-mindCyan/30 font-semibold">
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-pink-500/10 text-pink-400 border border-pink-500/30 font-semibold shadow-sm">
               Verified Patient
             </span>
           </h1>
@@ -99,7 +99,7 @@ const PatientProfile = () => {
         <div className="flex items-center gap-3">
           <Link
             to="/book"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-mindCyan hover:bg-mindCyan-hover text-white text-xs font-semibold shadow-md shadow-mindCyan/25 transition-all"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white text-xs font-semibold shadow-md shadow-pink-500/30 hover:scale-105 active:scale-95 transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>Book New Session</span>

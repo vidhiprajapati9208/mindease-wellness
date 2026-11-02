@@ -32,8 +32,11 @@ const Contact = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
       {/* Header matching Fig 14.11 */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
+        <div className="inline-block px-3.5 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-semibold uppercase tracking-wider mb-1">
+          Always Here For You
+        </div>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Get in <span className="text-mindCyan">Touch</span>
+          Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-pink-300">Touch</span>
         </h1>
         <p className="text-slate-300 text-base sm:text-lg leading-relaxed">
           Have questions about our services or need help booking an appointment? We're here for you.
@@ -176,7 +179,7 @@ const Contact = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 rounded-xl bg-mindCyan hover:bg-mindCyan-hover text-white text-sm font-semibold transition-all shadow-md shadow-mindCyan/25 flex items-center justify-center gap-2"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white text-sm font-semibold transition-all shadow-md shadow-pink-500/35 hover:scale-[1.02] active:scale-98 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Send className="w-4 h-4" />
                 <span>{loading ? 'Sending...' : 'Send Message'}</span>

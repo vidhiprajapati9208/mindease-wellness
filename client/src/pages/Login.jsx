@@ -42,13 +42,13 @@ const Login = () => {
     <div className="min-h-[75vh] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md space-y-4">
         {/* Portal Role Switcher Tabs */}
-        <div className="flex rounded-xl bg-mindDark-900 border border-mindDark-border p-1 text-xs font-semibold">
+        <div className="flex rounded-xl bg-mindDark-900 border border-pink-500/20 p-1 text-xs font-semibold shadow-sm">
           <button
             onClick={() => handleModeChange('admin')}
-            className={`flex-1 py-2 rounded-lg transition-colors flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
               roleMode === 'admin'
-                ? 'bg-mindCyan text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md shadow-pink-500/30'
+                : 'text-slate-400 hover:text-pink-300'
             }`}
           >
             <ShieldCheck className="w-3.5 h-3.5" />
@@ -56,10 +56,10 @@ const Login = () => {
           </button>
           <button
             onClick={() => handleModeChange('patient')}
-            className={`flex-1 py-2 rounded-lg transition-colors flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 ${
               roleMode === 'patient'
-                ? 'bg-mindCyan text-white shadow-md'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md shadow-pink-500/30'
+                : 'text-slate-400 hover:text-pink-300'
             }`}
           >
             <User className="w-3.5 h-3.5" />
@@ -68,10 +68,10 @@ const Login = () => {
         </div>
 
         {/* Portal Card matching Fig 14.5 */}
-        <div className="bg-mindDark-900 border border-mindDark-border rounded-3xl p-8 sm:p-10 shadow-2xl relative space-y-6">
+        <div className="bg-mindDark-900 border border-pink-500/20 rounded-3xl p-8 sm:p-10 shadow-2xl relative space-y-6">
           {/* Top Shield Icon */}
           <div className="text-center space-y-3">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-mindCyan to-blue-600 flex items-center justify-center mx-auto text-white shadow-lg shadow-mindCyan/25">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 flex items-center justify-center mx-auto text-white shadow-lg shadow-pink-500/35 animate-float">
               <ShieldCheck className="w-7 h-7" />
             </div>
             <h2 className="text-2xl font-bold text-white tracking-tight">
@@ -143,7 +143,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-mindCyan hover:bg-mindCyan-hover text-white font-semibold text-sm shadow-md shadow-mindCyan/25 transition-all"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-semibold text-sm shadow-md shadow-pink-500/35 hover:scale-[1.02] active:scale-98 transition-all cursor-pointer"
             >
               <Lock className="w-4 h-4" />
               <span>{loading ? 'Authenticating...' : 'Secure login'}</span>
@@ -151,14 +151,14 @@ const Login = () => {
           </form>
 
           {/* Quick Demo fill credentials box */}
-          <div className="pt-2 border-t border-mindDark-border/60 text-center space-y-2">
+          <div className="pt-2 border-t border-pink-500/20 text-center space-y-2">
             <p className="text-xs text-slate-400">
               Don't have an account?{' '}
-              <Link to="/register" className="text-mindCyan hover:underline font-semibold">
+              <Link to="/register" className="text-pink-400 hover:underline font-semibold">
                 Sign up here
               </Link>
             </p>
-            <p className="text-[11px] text-slate-400">⚡ Quick Evaluation Demo Login:</p>
+            <p className="text-[11px] text-pink-300 font-medium">⚡ Quick Evaluation Demo Login:</p>
             <div className="flex gap-2 justify-center">
               <button
                 type="button"
@@ -167,7 +167,7 @@ const Login = () => {
                   setPassword('admin123');
                   setRoleMode('admin');
                 }}
-                className="px-3 py-1 rounded bg-mindDark-850 hover:bg-mindDark-800 text-[11px] text-mindCyan border border-mindDark-border"
+                className="px-3 py-1 rounded bg-pink-500/10 hover:bg-pink-500/20 text-[11px] text-pink-300 border border-pink-500/30 transition-colors"
               >
                 Admin (admin123)
               </button>
@@ -178,7 +178,7 @@ const Login = () => {
                   setPassword('patient123');
                   setRoleMode('patient');
                 }}
-                className="px-3 py-1 rounded bg-mindDark-850 hover:bg-mindDark-800 text-[11px] text-slate-300 border border-mindDark-border"
+                className="px-3 py-1 rounded bg-pink-500/10 hover:bg-pink-500/20 text-[11px] text-pink-300 border border-pink-500/30 transition-colors"
               >
                 Patient (patient123)
               </button>

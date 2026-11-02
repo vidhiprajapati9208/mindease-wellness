@@ -38,9 +38,9 @@ const Register = () => {
     <div className="min-h-[75vh] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md space-y-4">
         {/* Register Card */}
-        <div className="bg-mindDark-900 border border-mindDark-border rounded-3xl p-8 sm:p-10 shadow-2xl relative space-y-6">
+        <div className="bg-mindDark-900 border border-pink-500/20 rounded-3xl p-8 sm:p-10 shadow-2xl relative space-y-6">
           <div className="text-center space-y-3">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-mindCyan to-blue-600 flex items-center justify-center mx-auto text-white shadow-lg shadow-mindCyan/25">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 flex items-center justify-center mx-auto text-white shadow-lg shadow-pink-500/35 animate-float">
               <Heart className="w-7 h-7 fill-white" />
             </div>
             <h2 className="text-2xl font-bold text-white tracking-tight">
@@ -133,17 +133,17 @@ const Register = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-mindCyan hover:bg-mindCyan-hover text-white font-semibold text-sm shadow-md shadow-mindCyan/25 transition-all"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-semibold text-sm shadow-md shadow-pink-500/35 hover:scale-[1.02] active:scale-98 transition-all cursor-pointer"
             >
               <ShieldCheck className="w-4 h-4" />
               <span>{loading ? 'Creating Account...' : 'Register'}</span>
             </button>
           </form>
 
-          <div className="text-center pt-2 border-t border-mindDark-border/60">
+          <div className="text-center pt-2 border-t border-pink-500/20">
             <p className="text-xs text-slate-400">
               Already have an account?{' '}
-              <Link to="/login" className="text-mindCyan hover:underline font-semibold">
+              <Link to="/login" className="text-pink-400 hover:underline font-semibold">
                 Sign in here
               </Link>
             </p>
