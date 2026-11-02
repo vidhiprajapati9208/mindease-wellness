@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   :root {
     /* Dark Mode: Luxury Velvet Midnight Plum */
     --bg-main: #0c0612;
