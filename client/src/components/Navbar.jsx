@@ -7,7 +7,6 @@ import {
   Heart,
   Sun,
   Moon,
-  UserCheck,
   LogOut,
   LayoutDashboard,
   ChevronDown,
@@ -19,7 +18,8 @@ import {
   MapPin,
   Calendar,
   Menu,
-  X
+  X,
+  User
 } from 'lucide-react';
 
 const Navbar = () => {
@@ -27,28 +27,28 @@ const Navbar = () => {
   const { toggleTheme, isDark } = useTheme();
   const location = useLocation();
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isOfferingsOpen, setIsOfferingsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Close dropdown when route changes
+  // Close dropdown on route change
   useEffect(() => {
-    setIsDropdownOpen(false);
+    setIsOfferingsOpen(false);
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // Click outside to close dropdown
+  // Click outside listener
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
+        setIsOfferingsOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const dropdownMenuItems = [
+  const offeringItems = [
     {
       name: 'Therapists & Doctors',
       desc: 'Browse certified psychologists & booking',
@@ -58,33 +58,21 @@ const Navbar = () => {
     },
     {
       name: 'Clinical Services',
-      desc: 'Anxiety, Depression, Couples & Burnout care',
+      desc: 'Specialized therapy for anxiety, depression & healing',
       path: '/services',
       icon: Activity,
-      badge: '6 Specialties'
+      badge: 'Specialties'
     },
     {
-      name: 'Wellness Library & Blog',
-      desc: 'Therapist articles & psychoeducation',
+      name: 'Wellness Sanctuary & Blog',
+      desc: 'Articles on mindfulness, meditation & recovery',
       path: '/blog',
       icon: BookOpen,
-      badge: 'Articles'
+      badge: 'Library'
     },
     {
-      name: 'About MindEase',
-      desc: 'Our clinical philosophy & core mission',
-      path: '/about',
-      icon: Info
-    },
-    {
-      name: 'Contact & Clinic Location',
-      desc: 'Office hours, interactive map & support',
-      path: '/contact',
-      icon: MapPin
-    },
-    {
-      name: 'Book Consultation',
-      desc: '3-step instant scheduling wizard',
+      name: 'Book a Private Session',
+      desc: 'Instant online or in-person consultation scheduling',
       path: '/book',
       icon: Calendar,
       highlight: true
@@ -92,85 +80,99 @@ const Navbar = () => {
   ];
 
   const isActive = (path) => location.pathname === path;
-  const isAnyDropdownActive = dropdownMenuItems.some((item) => location.pathname === item.path);
+  const isOfferingActive = offeringItems.some((item) => location.pathname === item.path);
 
   return (
-    <header className="sticky top-0 z-50 bg-mindDark-950/95 backdrop-blur-md border-b border-mindDark-border/60">
-      {/* Emergency Crisis Hotline Strip */}
-      <div className="bg-gradient-to-r from-rose-950/70 via-pink-950/40 to-rose-950/70 text-center py-1.5 px-4 text-xs font-medium text-pink-300 border-b border-pink-500/20 flex items-center justify-center gap-2">
-        <Phone className="w-3.5 h-3.5 text-pink-400 animate-pulse" />
-        <span>Need Immediate help? Call the National Crisis Hotline:</span>
-        <a href="tel:988" className="font-bold underline text-white hover:text-pink-200 transition-colors">
+    <header className="sticky top-0 z-50 bg-[#fdf9f7]/95 dark:bg-[#140b12]/95 backdrop-blur-md border-b border-[#f0dbd7] dark:border-[#3e2237] transition-colors duration-300">
+      {/* Delicate Emergency Crisis Hotline Banner */}
+      <div className="bg-[#fbf2f0] dark:bg-[#200f1c] text-[#7a4853] dark:text-pink-300 text-xs py-1.5 px-4 text-center border-b border-[#f0dbd7] dark:border-pink-500/20 flex items-center justify-center gap-2">
+        <Phone className="w-3.5 h-3.5 text-dustyRose animate-pulse" />
+        <span className="font-normal">Need immediate support? Call the 24/7 National Crisis Lifeline:</span>
+        <a
+          href="tel:988"
+          className="font-bold underline text-dustyRose hover:text-dustyRose-hover transition-colors"
+        >
           988
         </a>
       </div>
 
-      {/* Main Navigation Bar */}
+      {/* Main Sanctuary Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
-          {/* Brand Logo */}
+          {/* Brand Logo - Serif "MindEase" matching "Blooming Rose" header */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-pink-500 via-rose-500 to-pink-600 flex items-center justify-center text-white shadow-lg shadow-pink-500/30 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-              <Heart className="w-5 h-5 fill-white animate-pulse" />
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#e88d9f] via-dustyRose to-[#b54841] flex items-center justify-center text-white shadow-sm shadow-dustyRose/30 group-hover:scale-105 transition-transform duration-300">
+              <Heart className="w-4 h-4 fill-white animate-pulse" />
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-bold tracking-tight text-white flex items-center">
-                Mind<span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-pink-300">Ease</span>
+              <span className="font-editorial text-2xl sm:text-3xl italic tracking-wide text-stone-900 dark:text-rose-100 font-normal">
+                MindEase
               </span>
-              <span className="text-[10px] uppercase tracking-wider text-pink-300/80 font-medium -mt-1">
-                Wellness System
+              <span className="text-[9px] uppercase tracking-[0.2em] text-[#9d5b67] dark:text-pink-400 font-semibold -mt-1">
+                Sanctuary & Wellness
               </span>
             </div>
           </Link>
 
-          {/* Desktop Nav: Clean Home + Modern Dropdown */}
-          <nav className="hidden md:flex items-center space-x-2" ref={dropdownRef}>
-            {/* 1. Home Button */}
+          {/* Desktop Nav: Clean Minimalist Menu (Home | About | Offerings ▾ | Contact) */}
+          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2" ref={dropdownRef}>
+            {/* Home Link */}
             <Link
               to="/"
-              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${
+              className={`px-3.5 py-2 text-xs sm:text-sm uppercase tracking-widest font-semibold transition-all duration-200 relative ${
                 isActive('/')
-                  ? 'bg-gradient-to-r from-pink-500/20 to-rose-500/20 text-pink-300 border border-pink-500/40 shadow-sm'
-                  : 'text-slate-300 hover:text-pink-300 hover:bg-pink-500/10'
+                  ? 'text-dustyRose font-bold after:content-[""] after:absolute after:bottom-0 after:left-3.5 after:right-3.5 after:h-0.5 after:bg-dustyRose'
+                  : 'text-stone-700 dark:text-stone-300 hover:text-dustyRose'
               }`}
             >
               Home
             </Link>
 
-            {/* 2. Sleek Modern "Explore Menu ▾" Dropdown Trigger */}
+            {/* About Link */}
+            <Link
+              to="/about"
+              className={`px-3.5 py-2 text-xs sm:text-sm uppercase tracking-widest font-semibold transition-all duration-200 relative ${
+                isActive('/about')
+                  ? 'text-dustyRose font-bold after:content-[""] after:absolute after:bottom-0 after:left-3.5 after:right-3.5 after:h-0.5 after:bg-dustyRose'
+                  : 'text-stone-700 dark:text-stone-300 hover:text-dustyRose'
+              }`}
+            >
+              About
+            </Link>
+
+            {/* Offerings Dropdown Trigger */}
             <div className="relative">
               <button
                 type="button"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 cursor-pointer ${
-                  isDropdownOpen || isAnyDropdownActive
-                    ? 'bg-gradient-to-r from-pink-500/20 to-rose-500/20 text-pink-300 border border-pink-500/40 shadow-sm'
-                    : 'text-slate-300 hover:text-white hover:bg-pink-500/10 border border-transparent'
+                onClick={() => setIsOfferingsOpen(!isOfferingsOpen)}
+                className={`flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-sm uppercase tracking-widest font-semibold transition-all duration-200 cursor-pointer ${
+                  isOfferingsOpen || isOfferingActive
+                    ? 'text-dustyRose font-bold'
+                    : 'text-stone-700 dark:text-stone-300 hover:text-dustyRose'
                 }`}
-                aria-expanded={isDropdownOpen}
+                aria-expanded={isOfferingsOpen}
               >
-                <Sparkles className="w-4 h-4 text-pink-400" />
-                <span>Explore Sanctuary</span>
+                <span>Offerings</span>
                 <ChevronDown
-                  className={`w-4 h-4 text-pink-400 transition-transform duration-300 ${
-                    isDropdownOpen ? 'rotate-180' : ''
+                  className={`w-3.5 h-3.5 text-dustyRose transition-transform duration-300 ${
+                    isOfferingsOpen ? 'rotate-180' : ''
                   }`}
                 />
               </button>
 
-              {/* Glassmorphism Floating Dropdown Panel */}
-              {isDropdownOpen && (
-                <div className="absolute top-full left-0 mt-3 w-80 sm:w-96 rounded-2xl bg-mindDark-900/95 border border-pink-500/30 p-2.5 shadow-2xl backdrop-blur-xl z-50 animate-in fade-in slide-in-from-top-3 duration-200">
-                  <div className="px-3 py-2 border-b border-pink-500/15 mb-1.5 flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-pink-400 tracking-wider uppercase">
-                      MindEase Platform Directory
+              {/* Offerings Dropdown Panel */}
+              {isOfferingsOpen && (
+                <div className="absolute top-full left-0 mt-2 w-80 sm:w-96 rounded-2xl bg-white dark:bg-[#1e111b] border border-[#ecd8d4] dark:border-pink-500/30 p-2.5 shadow-xl backdrop-blur-xl z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="px-3 py-2 border-b border-[#f0dbd7] dark:border-pink-500/15 mb-1.5 flex items-center justify-between">
+                    <span className="text-[10px] font-bold text-dustyRose uppercase tracking-[0.2em]">
+                      Clinical Directory & Offerings
                     </span>
-                    <span className="text-[10px] text-slate-400">Select Destination</span>
+                    <span className="text-[10px] text-stone-400">MindEase</span>
                   </div>
 
                   <div className="space-y-1">
-                    {dropdownMenuItems.map((item) => {
+                    {offeringItems.map((item) => {
                       const Icon = item.icon;
                       const active = isActive(item.path);
                       return (
@@ -179,31 +181,31 @@ const Navbar = () => {
                           to={item.path}
                           className={`flex items-start gap-3 p-3 rounded-xl transition-all duration-200 ${
                             active
-                              ? 'bg-gradient-to-r from-pink-500/25 to-rose-500/15 text-white border border-pink-500/40'
-                              : 'hover:bg-pink-500/10 text-slate-200 hover:text-white'
+                              ? 'bg-[#faecea] dark:bg-pink-500/20 text-dustyRose dark:text-pink-200 font-semibold border border-[#ecd8d4] dark:border-pink-500/40'
+                              : 'hover:bg-[#fbf2f0] dark:hover:bg-pink-500/10 text-stone-700 dark:text-stone-200 hover:text-dustyRose'
                           }`}
                         >
                           <div
                             className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
                               active
-                                ? 'bg-pink-500 text-white'
-                                : 'bg-mindDark-850 text-pink-400 border border-pink-500/20'
+                                ? 'bg-dustyRose text-white'
+                                : 'bg-[#faecea] dark:bg-[#2a1725] text-dustyRose border border-[#ecd8d4] dark:border-pink-500/20'
                             }`}
                           >
                             <Icon className="w-4 h-4" />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between">
-                              <span className="text-xs sm:text-sm font-bold text-white truncate">
+                              <span className="text-xs sm:text-sm font-semibold truncate">
                                 {item.name}
                               </span>
                               {item.badge && (
-                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/15 text-pink-300 font-semibold border border-pink-500/30">
+                                <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#faecea] dark:bg-pink-500/15 text-dustyRose dark:text-pink-300 font-semibold border border-[#ecd8d4] dark:border-pink-500/30">
                                   {item.badge}
                                 </span>
                               )}
                             </div>
-                            <p className="text-[11px] text-slate-400 truncate mt-0.5">
+                            <p className="text-[11px] text-stone-500 dark:text-stone-400 truncate mt-0.5 font-normal">
                               {item.desc}
                             </p>
                           </div>
@@ -215,61 +217,70 @@ const Navbar = () => {
               )}
             </div>
 
-            {/* 3. Dashboard / Profile shortcut if logged in */}
+            {/* Contact Link */}
+            <Link
+              to="/contact"
+              className={`px-3.5 py-2 text-xs sm:text-sm uppercase tracking-widest font-semibold transition-all duration-200 relative ${
+                isActive('/contact')
+                  ? 'text-dustyRose font-bold after:content-[""] after:absolute after:bottom-0 after:left-3.5 after:right-3.5 after:h-0.5 after:bg-dustyRose'
+                  : 'text-stone-700 dark:text-stone-300 hover:text-dustyRose'
+              }`}
+            >
+              Contact
+            </Link>
+
+            {/* If Logged In: Dashboard / My Appointments */}
             {isAuthenticated && (
               <Link
                 to={isAdmin ? '/dashboard' : '/profile'}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs uppercase tracking-wider font-semibold transition-all ${
                   isActive(isAdmin ? '/dashboard' : '/profile')
-                    ? 'text-pink-300 bg-pink-500/20 border border-pink-500/40'
-                    : 'text-slate-300 hover:text-pink-300 hover:bg-pink-500/10'
+                    ? 'text-dustyRose bg-[#faecea] dark:bg-pink-500/20 border border-[#ecd8d4]'
+                    : 'text-stone-600 dark:text-stone-300 hover:text-dustyRose'
                 }`}
               >
-                <LayoutDashboard className="w-4 h-4 text-pink-400" />
-                <span>{isAdmin ? 'Clinic Dashboard' : 'My Bookings'}</span>
+                <LayoutDashboard className="w-3.5 h-3.5 text-dustyRose" />
+                <span>{isAdmin ? 'Staff Dashboard' : 'My Sessions'}</span>
               </Link>
             )}
           </nav>
 
-          {/* Right Action Buttons */}
+          {/* Right Action Controls */}
           <div className="flex items-center gap-3">
-            {/* Theme Light / Dark Mode Toggle */}
+            {/* Theme Toggle (Light / Dark) */}
             <button
               type="button"
               onClick={toggleTheme}
-              className="w-9 h-9 rounded-xl flex items-center justify-center transition-all bg-mindDark-850 hover:bg-pink-500/10 border border-mindDark-border hover:border-pink-500/40 hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
+              className="w-9 h-9 rounded-full flex items-center justify-center transition-all bg-[#faecea] dark:bg-[#2a1725] hover:bg-[#f5d5d1] border border-[#ecd8d4] dark:border-pink-500/30 hover:scale-105 active:scale-95 cursor-pointer shadow-sm"
               title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
               aria-label="Toggle Theme"
             >
               {isDark ? (
                 <Sun className="w-4 h-4 text-amber-400 transition-transform duration-300 hover:rotate-45" />
               ) : (
-                <Moon className="w-4 h-4 text-pink-400 transition-transform duration-300 hover:-rotate-12" />
+                <Moon className="w-4 h-4 text-dustyRose transition-transform duration-300 hover:-rotate-12" />
               )}
             </button>
 
-            {/* Auth / Login status */}
+            {/* Auth: Login / Profile */}
             {isAuthenticated ? (
               <div className="flex items-center gap-2">
                 <Link
                   to={isAdmin ? '/dashboard' : '/profile'}
-                  className="flex items-center gap-2 px-3 py-1.5 bg-mindDark-850 hover:bg-mindDark-800 rounded-full border border-pink-500/30 transition-all group"
+                  className="flex items-center gap-2 px-3 py-1.5 bg-[#faecea] dark:bg-[#2a1725] hover:bg-[#f5d5d1] rounded-full border border-[#ecd8d4] dark:border-pink-500/30 transition-all group"
                   title="View My Profile"
                 >
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-pink-500 to-rose-600 flex items-center justify-center text-white text-[11px] font-bold">
+                  <div className="w-6 h-6 rounded-full bg-dustyRose flex items-center justify-center text-white text-[11px] font-bold">
                     {user?.name ? user.name[0].toUpperCase() : 'U'}
                   </div>
-                  <span className="hidden sm:inline text-xs font-semibold text-slate-200 group-hover:text-pink-400 transition-colors">
+                  <span className="hidden sm:inline text-xs font-semibold text-stone-800 dark:text-stone-200 group-hover:text-dustyRose transition-colors">
                     {user?.name || user?.email?.split('@')[0]}
-                  </span>
-                  <span className="hidden xl:inline text-[10px] px-1.5 py-0.5 rounded bg-mindDark-950 text-pink-300 font-medium">
-                    {isAdmin ? 'Staff' : 'Patient'}
                   </span>
                 </Link>
                 <button
                   onClick={logout}
                   title="Sign out"
-                  className="p-2 text-slate-400 hover:text-rose-400 hover:bg-mindDark-850 rounded-lg transition-colors"
+                  className="p-2 text-stone-500 dark:text-stone-400 hover:text-rose-500 rounded-lg transition-colors cursor-pointer"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -277,61 +288,92 @@ const Navbar = () => {
             ) : (
               <Link
                 to="/login"
-                className="hidden sm:inline-block px-4 py-2 text-sm font-semibold text-slate-300 hover:text-pink-300 hover:bg-pink-500/10 rounded-xl transition-colors"
+                className="hidden sm:inline-block px-3 py-1.5 text-xs uppercase tracking-widest font-semibold text-stone-700 dark:text-stone-300 hover:text-dustyRose transition-colors"
               >
                 Login
               </Link>
             )}
 
-            {/* Call / Book appointment Primary CTA */}
+            {/* Primary Action Button: "BOOK A SESSION" matching inspiration image */}
             <Link
               to="/book"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white text-xs sm:text-sm font-bold shadow-md shadow-pink-500/30 hover:shadow-pink-500/50 hover:scale-105 active:scale-95 transition-all duration-300"
+              className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 rounded-full bg-dustyRose hover:bg-dustyRose-hover text-white text-xs font-semibold uppercase tracking-widest shadow-md shadow-dustyRose/25 hover:scale-105 active:scale-95 transition-all duration-300"
             >
-              <Phone className="w-4 h-4" />
-              <span>Talk to a Therapist</span>
+              <Calendar className="w-3.5 h-3.5" />
+              <span>Book a Session</span>
             </Link>
 
-            {/* Mobile Hamburger Menu Toggle */}
+            {/* Mobile Hamburger Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl bg-mindDark-850 text-slate-300 border border-mindDark-border"
-              aria-label="Toggle Menu"
+              className="md:hidden p-2 rounded-xl bg-[#faecea] dark:bg-[#2a1725] text-stone-700 dark:text-stone-300 border border-[#ecd8d4] dark:border-pink-500/30 cursor-pointer"
+              aria-label="Toggle Mobile Menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
-        </div>
 
-        {/* Mobile Dropdown Drawer */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-pink-500/20 py-4 space-y-2 animate-in fade-in duration-200">
-            <Link
-              to="/"
-              className="block px-4 py-2.5 rounded-xl text-sm font-semibold text-white hover:bg-pink-500/15"
-            >
-              Home
-            </Link>
-            {dropdownMenuItems.map((item) => (
+        </div>
+      </div>
+
+      {/* Mobile Drawer Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden border-t border-[#f0dbd7] dark:border-pink-500/20 bg-[#fdf9f7] dark:bg-[#1e111b] px-4 pt-3 pb-6 space-y-2 shadow-2xl animate-in slide-in-from-top duration-200">
+          <Link
+            to="/"
+            className={`block px-4 py-2.5 rounded-xl text-sm font-semibold tracking-wider uppercase ${
+              isActive('/') ? 'bg-[#faecea] text-dustyRose font-bold' : 'text-stone-700 dark:text-stone-300'
+            }`}
+          >
+            Home
+          </Link>
+          <Link
+            to="/about"
+            className={`block px-4 py-2.5 rounded-xl text-sm font-semibold tracking-wider uppercase ${
+              isActive('/about') ? 'bg-[#faecea] text-dustyRose font-bold' : 'text-stone-700 dark:text-stone-300'
+            }`}
+          >
+            About
+          </Link>
+
+          <div className="pt-2 pb-1 px-4">
+            <span className="text-[10px] font-bold text-dustyRose uppercase tracking-[0.2em]">
+              Offerings & Directory
+            </span>
+          </div>
+          {offeringItems.map((item) => {
+            const Icon = item.icon;
+            return (
               <Link
                 key={item.name}
                 to={item.path}
-                className="block px-4 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-pink-500/10"
+                className="flex items-center gap-3 px-4 py-2 rounded-xl text-sm text-stone-700 dark:text-stone-300 hover:bg-[#faecea] hover:text-dustyRose"
               >
-                {item.name}
+                <Icon className="w-4 h-4 text-dustyRose" />
+                <span>{item.name}</span>
               </Link>
-            ))}
-            {!isAuthenticated && (
-              <Link
-                to="/login"
-                className="block px-4 py-2 rounded-xl text-sm font-medium text-pink-400 hover:bg-pink-500/10"
-              >
-                Login to Portal
-              </Link>
-            )}
-          </div>
-        )}
-      </div>
+            );
+          })}
+
+          <Link
+            to="/contact"
+            className={`block px-4 py-2.5 rounded-xl text-sm font-semibold tracking-wider uppercase ${
+              isActive('/contact') ? 'bg-[#faecea] text-dustyRose font-bold' : 'text-stone-700 dark:text-stone-300'
+            }`}
+          >
+            Contact
+          </Link>
+
+          {!isAuthenticated && (
+            <Link
+              to="/login"
+              className="block px-4 py-2.5 rounded-xl text-sm font-semibold uppercase tracking-wider text-dustyRose bg-[#faecea] text-center mt-3"
+            >
+              Sign In to MindEase
+            </Link>
+          )}
+        </div>
+      )}
     </header>
   );
 };

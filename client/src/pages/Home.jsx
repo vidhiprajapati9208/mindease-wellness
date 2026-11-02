@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Activity,
   Heart,
   ArrowRight,
   ShieldCheck,
@@ -10,7 +9,6 @@ import {
   CheckCircle2,
   Clock,
   Star,
-  Users,
   Award,
   ChevronDown,
   ChevronUp,
@@ -19,60 +17,15 @@ import {
   RotateCcw,
   Volume2,
   VolumeX,
-  Smile,
-  Zap,
-  Lock,
   Phone,
-  Compass,
-  MessageSquare,
-  Flame,
-  Check,
-  RefreshCw
+  Check
 } from 'lucide-react';
 
-const affirmationsList = [
-  {
-    quote: "You don't have to control your thoughts. You just have to stop letting them control you.",
-    author: "Dan Millman",
-    theme: "Peace of Mind"
-  },
-  {
-    quote: "Healing is not linear. Be gentle with where you are today.",
-    author: "MindEase Clinical Faculty",
-    theme: "Self-Compassion"
-  },
-  {
-    quote: "Your feelings are valid. You are allowed to take up space and take your time.",
-    author: "Dr. Emily Chen, PhD",
-    theme: "Emotional Validation"
-  },
-  {
-    quote: "Breathe. You have survived 100% of your hardest days so far.",
-    author: "Therapeutic Grounding Principle",
-    theme: "Inner Strength"
-  },
-  {
-    quote: "Peace begins the moment you choose not to allow another person or event to control your emotions.",
-    author: "Pema Chödrön",
-    theme: "Emotional Freedom"
-  }
-];
-
 const Home = () => {
-  // -------------------------------------------------------------
-  // 1. HERO SANCTUARY WIDGET STATE (Tabs: Breathe, Affirmation, Doctor)
-  // -------------------------------------------------------------
-  const [heroTab, setHeroTab] = useState('breathe'); // 'breathe' | 'affirmation' | 'specialist'
+  // 1. Interactive Box Breathing State
   const [isBreathing, setIsBreathing] = useState(false);
   const [breathePhase, setBreathePhase] = useState('Inhale');
   const [breatheSeconds, setBreatheSeconds] = useState(4);
-
-  // Affirmation state
-  const [affirmationIdx, setAffirmationIdx] = useState(0);
-
-  const nextAffirmation = () => {
-    setAffirmationIdx((prev) => (prev + 1) % affirmationsList.length);
-  };
 
   useEffect(() => {
     let timer;
@@ -97,10 +50,8 @@ const Home = () => {
     return () => clearInterval(timer);
   }, [isBreathing]);
 
-  // -------------------------------------------------------------
-  // 2. INTERACTIVE AMBIENT SOUND GENERATOR (Web Audio API)
-  // -------------------------------------------------------------
-  const [activeSound, setActiveSound] = useState(null); // 'bowl' | 'rain' | 'ocean' | null
+  // 2. Interactive Soundscape (Pure Web Audio)
+  const [activeSound, setActiveSound] = useState(null);
   const audioCtxRef = useRef(null);
   const soundNodesRef = useRef([]);
 
@@ -117,7 +68,6 @@ const Home = () => {
 
   const playAmbient = (type) => {
     stopAllSounds();
-
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return;
 
@@ -130,7 +80,6 @@ const Home = () => {
     }
 
     if (type === 'bowl') {
-      // 432 Hz Tibetan Harmonic Resonance Chime
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
       osc.type = 'sine';
@@ -143,11 +92,8 @@ const Home = () => {
       osc.stop(ctx.currentTime + 4.6);
       soundNodesRef.current.push(osc);
       setActiveSound('bowl');
-
-      // Auto stop after chime fades
       setTimeout(() => setActiveSound(null), 4600);
-    } else if (type === 'rain' || type === 'ocean') {
-      // Synthesize soothing ambient pink noise
+    } else if (type === 'rain') {
       const bufferSize = ctx.sampleRate * 2;
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
@@ -162,20 +108,17 @@ const Home = () => {
       const noise = ctx.createBufferSource();
       noise.buffer = buffer;
       noise.loop = true;
-
       const filter = ctx.createBiquadFilter();
-      filter.type = type === 'rain' ? 'lowpass' : 'bandpass';
-      filter.frequency.setValueAtTime(type === 'rain' ? 800 : 350, ctx.currentTime);
-
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(750, ctx.currentTime);
       const gain = ctx.createGain();
       gain.gain.setValueAtTime(0.18, ctx.currentTime);
-
       noise.connect(filter);
       filter.connect(gain);
       gain.connect(ctx.destination);
       noise.start();
       soundNodesRef.current.push(noise);
-      setActiveSound(type);
+      setActiveSound('rain');
     }
   };
 
@@ -183,57 +126,7 @@ const Home = () => {
     return () => stopAllSounds();
   }, []);
 
-  // -------------------------------------------------------------
-  // 3. INTERACTIVE MOOD SELECTOR STATE
-  // -------------------------------------------------------------
-  const [selectedMood, setSelectedMood] = useState('anxiety');
-
-  const moodRecommendations = {
-    anxiety: {
-      title: 'Anxiety & Panic Relief Protocol',
-      desc: 'Our specialized CBT clinicians guide you through nervous system de-escalation, rapid grounding tools, and personalized cognitive reframing.',
-      doctor: 'Dr. Emily Chen, PhD',
-      role: 'Clinical Psychologist',
-      rating: '4.98 / 5 (380+ reviews)',
-      link: '/book?doctor=Dr.%20Emily%20Chen,%20PhD'
-    },
-    depression: {
-      title: 'Depression & Emotional Reconnection',
-      desc: 'Gentle, zero-pressure therapeutic dialogue designed to restore emotional vitality, dissolve feelings of isolation, and reignite inner hope.',
-      doctor: 'Sarah Williams, LCSW',
-      role: 'Clinical Social Worker',
-      rating: '4.95 / 5 (290+ reviews)',
-      link: '/book?doctor=Sarah%20Williams,%20LCSW'
-    },
-    couples: {
-      title: 'Couples & Relational Dynamics',
-      desc: 'Constructive mediation that heals unresolved resentment, strengthens attachment security, and rebuilds deep intimacy in your relationship.',
-      doctor: 'Dr. Marcus Johnson, PsyD',
-      role: 'Licensed Family Therapist',
-      rating: '4.92 / 5 (410+ reviews)',
-      link: '/book?doctor=Dr.%20Marcus%20Johnson,%20PsyD'
-    },
-    burnout: {
-      title: 'Executive Burnout & Boundary Restoration',
-      desc: 'Resolve chronic workplace fatigue, protect mental bandwidth, and build enduring resilience for high-performance careers.',
-      doctor: 'Dr. Emily Chen, PhD',
-      role: 'Burnout & Anxiety Specialist',
-      rating: '4.98 / 5 (380+ reviews)',
-      link: '/book?doctor=Dr.%20Emily%20Chen,%20PhD'
-    },
-    growth: {
-      title: 'Mindfulness & Personal Transformation',
-      desc: 'Explore your authentic identity, develop emotional intelligence, and cultivate sustained daily calm through somatic mindfulness practices.',
-      doctor: 'Sarah Williams, LCSW',
-      role: 'Holistic Wellness Practitioner',
-      rating: '4.95 / 5 (290+ reviews)',
-      link: '/book?doctor=Sarah%20Williams,%20LCSW'
-    }
-  };
-
-  // -------------------------------------------------------------
-  // 4. INTERACTIVE FAQ ACCORDION STATE
-  // -------------------------------------------------------------
+  // 3. Interactive FAQ Accordion State
   const [openFaq, setOpenFaq] = useState(0);
 
   const faqs = [
@@ -260,629 +153,420 @@ const Home = () => {
   ];
 
   return (
-    <div className="space-y-32 pb-28 overflow-hidden">
+    <div className="space-y-24 sm:space-y-32 pb-24 overflow-hidden">
+      
       {/* =========================================================================
-          SECTION 1: ASYMMETRICAL LUXURY 2-COLUMN HERO WITH SANCTUARY INTERACTIVE WIDGET
+          SECTION 1: TOP ETHEREAL HERO BANNER ("MindEase Sanctuary")
+          Matching the "Blooming Rose" header aesthetic
          ========================================================================= */}
-      <section className="relative min-h-[90vh] flex items-center justify-center pt-6 lg:pt-12">
-        {/* Ambient Rose-Pink Glows */}
-        <div className="absolute top-10 left-1/4 w-[650px] h-[450px] bg-gradient-to-tr from-pink-600/20 via-rose-500/15 to-transparent blur-[140px] rounded-full pointer-events-none animate-breathe"></div>
-        <div className="absolute top-1/2 right-10 w-[450px] h-[450px] bg-rose-500/10 blur-[130px] rounded-full pointer-events-none animate-float-slow"></div>
+      <section className="relative min-h-[75vh] sm:min-h-[82vh] flex items-center justify-center overflow-hidden">
+        {/* Background Ethereal Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=1800&q=80"
+            alt="MindEase Sanctuary Ethereal Petals"
+            className="w-full h-full object-cover object-center filter brightness-[0.88] contrast-[1.05]"
+          />
+          {/* Gentle Blush Rose Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#2b1822]/40 via-[#d9778a]/30 to-[#fdf9f7]"></div>
+        </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            
-            {/* LEFT COLUMN: Modern Asymmetric Typography & Trust Actions */}
-            <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
-              {/* Live Status Pill */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs font-semibold shadow-sm animate-float">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span>Sanctuary Live • Licensed Therapists Available Today</span>
-              </div>
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-5 pt-8 pb-16">
+          <p className="text-xs sm:text-sm font-semibold tracking-[0.28em] text-rose-100 uppercase drop-shadow-sm">
+            THE POWER IS IN HEALING
+          </p>
 
-              {/* Grand Main Headline */}
-              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.12]">
-                Your sanctuary for{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-400 to-pink-300 glow-pink-pulse">
-                  calm, clarity
-                </span>{' '}
-                & gentle healing.
-              </h1>
+          <h1 className="font-editorial text-5xl sm:text-7xl lg:text-8xl font-normal text-white tracking-wide drop-shadow-md">
+            MindEase
+          </h1>
 
-              {/* Subtext */}
-              <p className="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-xl mx-auto lg:mx-0">
-                Mental healthcare designed with human warmth. Connect with licensed clinical psychologists for confidential online video or in-person sessions with zero waitlists.
-              </p>
+          <p className="font-editorial italic text-lg sm:text-2xl text-rose-50 max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
+            A nurturing sanctuary for emotional transformation, inner remembrance, and gentle peace, guided by compassionate clinical wisdom.
+          </p>
 
-              {/* Primary Dual CTA Bar */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-                <Link
-                  to="/book"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-bold text-sm sm:text-base shadow-xl shadow-pink-500/35 hover:shadow-pink-500/50 hover:scale-105 active:scale-95 transition-all duration-300"
-                >
-                  <Sparkles className="w-4 h-4 fill-white" />
-                  <span>Begin Your Journey</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  to="/therapists"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-mindDark-900/90 hover:bg-pink-500/10 text-slate-200 hover:text-pink-300 font-semibold text-sm sm:text-base border border-pink-500/30 hover:border-pink-500/50 hover:scale-105 active:scale-95 transition-all duration-300"
-                >
-                  <span>Meet Our Specialists</span>
-                </Link>
-              </div>
-
-              {/* Trust Badge Bar */}
-              <div className="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 text-xs text-slate-400 border-t border-pink-500/15">
-                <div className="flex -space-x-2">
-                  <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=100&q=80" alt="Doctor" className="w-8 h-8 rounded-full border-2 border-mindDark-950 object-cover" />
-                  <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=100&q=80" alt="Doctor" className="w-8 h-8 rounded-full border-2 border-mindDark-950 object-cover" />
-                  <img src="https://images.unsplash.com/photo-1594824813580-c11f7c5e532a?auto=format&fit=crop&w=100&q=80" alt="Doctor" className="w-8 h-8 rounded-full border-2 border-mindDark-950 object-cover" />
-                </div>
-                <div className="flex items-center gap-1.5 text-slate-300">
-                  <div className="flex text-amber-400">
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
-                  </div>
-                  <span><strong>4.98 Rating</strong> • 15,000+ Lives Touched</span>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT COLUMN: The Interactive "Mind Sanctuary" Dashboard Tablet */}
-            <div className="lg:col-span-5">
-              <div className="bento-card p-6 sm:p-8 shadow-2xl relative border-pink-500/30">
-                {/* Mode Tabs */}
-                <div className="flex items-center justify-between border-b border-pink-500/20 pb-4 mb-6">
-                  <div className="flex gap-2 text-xs font-bold">
-                    <button
-                      onClick={() => setHeroTab('breathe')}
-                      className={`px-3 py-1.5 rounded-xl transition-all ${
-                        heroTab === 'breathe'
-                          ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md shadow-pink-500/25'
-                          : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      🌬️ Breathe Orb
-                    </button>
-                    <button
-                      onClick={() => setHeroTab('affirmation')}
-                      className={`px-3 py-1.5 rounded-xl transition-all ${
-                        heroTab === 'affirmation'
-                          ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md shadow-pink-500/25'
-                          : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      🌸 Affirmation
-                    </button>
-                    <button
-                      onClick={() => setHeroTab('specialist')}
-                      className={`px-3 py-1.5 rounded-xl transition-all ${
-                        heroTab === 'specialist'
-                          ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-md shadow-pink-500/25'
-                          : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      👩‍⚕️ Live Faculty
-                    </button>
-                  </div>
-                </div>
-
-                {/* TAB CONTENT A: Interactive Breathe Orb */}
-                {heroTab === 'breathe' && (
-                  <div className="text-center py-4 space-y-6 animate-in fade-in duration-300">
-                    <div className="relative flex justify-center items-center">
-                      <div
-                        className={`w-44 h-44 rounded-full border-4 flex flex-col items-center justify-center transition-all duration-1000 shadow-2xl ${
-                          isBreathing
-                            ? breathePhase === 'Inhale'
-                              ? 'scale-110 border-pink-400 bg-pink-500/20 shadow-pink-500/50'
-                              : breathePhase === 'Hold'
-                              ? 'scale-110 border-rose-400 bg-rose-500/30 shadow-rose-500/60'
-                              : 'scale-90 border-pink-500/50 bg-pink-500/10 shadow-pink-500/20'
-                            : 'scale-100 border-pink-500/30 bg-mindDark-950/60'
-                        }`}
-                      >
-                        <Heart className={`w-7 h-7 text-pink-400 ${isBreathing ? 'animate-pulse fill-pink-400/40' : ''}`} />
-                        <span className="text-2xl font-black text-white mt-1">
-                          {isBreathing ? breathePhase : 'Relax'}
-                        </span>
-                        <span className="text-xs text-pink-300 font-bold tracking-widest mt-0.5">
-                          {isBreathing ? `${breatheSeconds}s` : 'Tap to Start'}
-                        </span>
-                      </div>
-                    </div>
-
-                    <p className="text-xs text-slate-300 max-w-xs mx-auto">
-                      {isBreathing
-                        ? 'Follow the circle. Breathe in calm, release all tension.'
-                        : 'Practice the 4-4-4 Box Breathing cycle to reset your autonomic nervous system.'}
-                    </p>
-
-                    <div className="flex justify-center gap-3">
-                      <button
-                        onClick={() => setIsBreathing(!isBreathing)}
-                        className="px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white font-bold text-xs shadow-lg shadow-pink-500/30 hover:scale-105 active:scale-95 transition-all"
-                      >
-                        {isBreathing ? 'Pause Breathing' : 'Start Zen Breath'}
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* TAB CONTENT B: Interactive Affirmation Oracle */}
-                {heroTab === 'affirmation' && (
-                  <div className="py-6 space-y-6 text-center animate-in fade-in duration-300">
-                    <span className="inline-block px-3 py-1 rounded-full bg-pink-500/15 text-pink-400 text-[11px] font-bold uppercase tracking-wider">
-                      {affirmationsList[affirmationIdx].theme}
-                    </span>
-                    <blockquote className="text-lg sm:text-xl font-medium text-white italic leading-relaxed px-2">
-                      "{affirmationsList[affirmationIdx].quote}"
-                    </blockquote>
-                    <p className="text-xs font-semibold text-pink-300">
-                      — {affirmationsList[affirmationIdx].author}
-                    </p>
-                    <div className="pt-2">
-                      <button
-                        onClick={nextAffirmation}
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-mindDark-850 hover:bg-pink-500/20 text-slate-200 hover:text-pink-300 text-xs font-semibold border border-pink-500/30 transition-all hover:scale-105 active:scale-95"
-                      >
-                        <RefreshCw className="w-3.5 h-3.5" />
-                        <span>Draw Next Affirmation</span>
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* TAB CONTENT C: Live Specialists Fast-Book */}
-                {heroTab === 'specialist' && (
-                  <div className="space-y-3.5 py-2 animate-in fade-in duration-300">
-                    {[
-                      {
-                        name: 'Dr. Emily Chen, PhD',
-                        spec: 'Anxiety & Burnout Specialist',
-                        status: 'Available Today',
-                        time: '11:30 AM Slot'
-                      },
-                      {
-                        name: 'Dr. Marcus Johnson, PsyD',
-                        spec: 'Couples & Family Dynamics',
-                        status: 'Next Slot: 02:00 PM',
-                        time: 'Video Available'
-                      },
-                      {
-                        name: 'Sarah Williams, LCSW',
-                        spec: 'Trauma & Depression Care',
-                        status: 'Available Today',
-                        time: '04:00 PM Slot'
-                      }
-                    ].map((doc, idx) => (
-                      <div
-                        key={idx}
-                        className="p-3.5 rounded-2xl bg-mindDark-950/70 border border-pink-500/20 flex items-center justify-between gap-3 hover:border-pink-500/50 transition-colors"
-                      >
-                        <div className="text-left">
-                          <h4 className="text-xs sm:text-sm font-bold text-white">{doc.name}</h4>
-                          <p className="text-[11px] text-pink-400 font-medium">{doc.spec}</p>
-                          <span className="text-[10px] text-emerald-400 font-semibold flex items-center gap-1 mt-0.5">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                            {doc.status}
-                          </span>
-                        </div>
-                        <Link
-                          to={`/book?doctor=${encodeURIComponent(doc.name)}`}
-                          className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-pink-500 to-rose-600 hover:from-pink-600 hover:to-rose-700 text-white text-[11px] font-bold shadow-sm whitespace-nowrap hover:scale-105 transition-transform"
-                        >
-                          Book Now
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              to="/book"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-dustyRose hover:bg-dustyRose-hover text-white text-xs sm:text-sm font-semibold uppercase tracking-widest shadow-lg shadow-dustyRose/40 hover:scale-105 active:scale-95 transition-all duration-300"
+            >
+              Book a Consultation
+            </Link>
+            <Link
+              to="/therapists"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-white/80 hover:bg-white text-stone-900 text-xs sm:text-sm font-semibold uppercase tracking-widest shadow-md backdrop-blur-md hover:scale-105 active:scale-95 transition-all duration-300"
+            >
+              Meet Our Guides
+            </Link>
           </div>
         </div>
       </section>
 
       {/* =========================================================================
-          SECTION 2: INTERACTIVE CALMING SOUNDSCAPE OASIS (Pure Web Audio Synthesis)
+          SECTION 2: FLOATING EDITORIAL COLLAGE ("Reconnect with the beauty of living..")
+          Directly mirroring the user's inspiration screenshot!
          ========================================================================= */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6">
-        <div className="rounded-3xl bg-gradient-to-r from-pink-950/30 via-mindDark-900 to-pink-950/30 border border-pink-500/25 p-8 sm:p-10 text-center shadow-xl space-y-6">
-          <div className="space-y-2">
-            <span className="inline-block px-3 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider">
-              🎧 Interactive Audio Oasis
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Soothe Your Senses with Calming Frequencies
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          {/* Left Floating Images (Dual Stacked Mental Health Photos) */}
+          <div className="lg:col-span-3 hidden lg:flex flex-col gap-6">
+            <div className="w-48 h-60 rounded-3xl overflow-hidden collage-image border-4 border-white ml-auto">
+              <img
+                src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80"
+                alt="Mindfulness meditation in morning light"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="w-56 h-64 rounded-3xl overflow-hidden collage-image border-4 border-white mr-auto -mt-6">
+              <img
+                src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80"
+                alt="Therapeutic journaling & calm reflection"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Center Main Editorial Text Block */}
+          <div className="lg:col-span-6 text-center space-y-6 px-2 sm:px-6">
+            {/* Delicate Botanical Floral Icon */}
+            <div className="flex justify-center text-dustyRose">
+              <span className="text-3xl">🌸</span>
+            </div>
+
+            {/* Main Serif Headline */}
+            <h2 className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-stone-900 font-normal italic tracking-tight leading-[1.15]">
+              Reconnect with the <br />
+              beauty of living..
             </h2>
-            <p className="text-slate-300 text-xs sm:text-sm max-w-lg mx-auto">
-              Click any soundscape to experience immediate acoustic grounding synthesized in real time.
+
+            {/* Blush Rose Uppercase Subtitle */}
+            <p className="text-xs sm:text-sm font-semibold tracking-[0.2em] text-dustyRose uppercase">
+              Find your soul's purpose & unlock a life of calm & freedom
             </p>
+
+            {/* Warm Descriptive Paragraphs */}
+            <div className="space-y-4 text-xs sm:text-sm text-stone-600 font-normal leading-relaxed max-w-xl mx-auto">
+              <p>
+                Here, you are invited to pause, breathe, and remember who you truly are beneath life's layers of stress, hurry, and expectation.
+              </p>
+              <p>
+                Whether you're beginning a new chapter, healing old wounds, or seeking deeper alignment, this is a sanctuary for exploring the inner wisdom of your mind and reconnecting with the joy and purpose that has always been yours.
+              </p>
+            </div>
+
+            {/* Dusty Rose Pill Button */}
+            <div className="pt-2">
+              <Link
+                to="/services"
+                className="inline-block px-8 py-3.5 rounded-full bg-dustyRose hover:bg-dustyRose-hover text-white text-xs font-semibold uppercase tracking-widest shadow-md shadow-dustyRose/25 hover:scale-105 active:scale-95 transition-all duration-300"
+              >
+                How We Can Help
+              </Link>
+            </div>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-3 pt-2">
-            <button
-              onClick={() => playAmbient('bowl')}
-              className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-semibold transition-all ${
-                activeSound === 'bowl'
-                  ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/40 scale-105'
-                  : 'bg-mindDark-850 text-slate-200 hover:text-white hover:bg-mindDark-800 border border-pink-500/20'
+          {/* Right Floating Image (Tall Mental Health Calm Photo) */}
+          <div className="lg:col-span-3 hidden lg:flex justify-start">
+            <div className="w-60 h-84 rounded-3xl overflow-hidden collage-image border-4 border-white">
+              <img
+                src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=600&q=80"
+                alt="Woman breathing peacefully in calm sanctuary"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 3: INFINITE FLOWING MARQUEE RIBBON
+          Directly mirroring the ribbon in the user's screenshot!
+         ========================================================================= */}
+      <section className="py-4 border-y border-[#ecd8d4] bg-[#fbf3f1] overflow-hidden">
+        <div className="animate-marquee font-editorial italic text-sm sm:text-base text-[#9d5b67] tracking-[0.25em] uppercase">
+          <span className="mx-6">Heal</span>
+          <span className="mx-3">•</span>
+          <span className="mx-6">Believe</span>
+          <span className="mx-3">•</span>
+          <span className="mx-6">Discover the beauty and power within</span>
+          <span className="mx-3">•</span>
+          <span className="mx-6">Breathe</span>
+          <span className="mx-3">•</span>
+          <span className="mx-6">Restore</span>
+          <span className="mx-3">•</span>
+          <span className="mx-6">Reclaim Your Peace</span>
+          <span className="mx-3">•</span>
+          <span className="mx-6">Heal</span>
+          <span className="mx-3">•</span>
+          <span className="mx-6">Believe</span>
+          <span className="mx-3">•</span>
+          <span className="mx-6">Discover the beauty and power within</span>
+          <span className="mx-3">•</span>
+          <span className="mx-6">Breathe</span>
+          <span className="mx-3">•</span>
+          <span className="mx-6">Restore</span>
+          <span className="mx-3">•</span>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 4: INTERACTIVE MINDFULNESS & TIBETAN CHIME SANCTUARY
+          Interactive Grounding Tool
+         ========================================================================= */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6">
+        <div className="rounded-3xl bg-white border border-[#f0dbd7] p-8 sm:p-12 text-center card-soft-rose space-y-6">
+          <span className="text-xs font-semibold tracking-widest text-dustyRose uppercase">
+            Interactive Sanctuary Ritual
+          </span>
+
+          <h2 className="font-editorial text-3xl sm:text-4xl text-stone-900 font-normal italic">
+            Take a 60-Second Guided Breath
+          </h2>
+
+          <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto">
+            Allow yourself this brief pause. Watch the sacred circle expand and contract to restore autonomic nervous system calm.
+          </p>
+
+          {/* Circular Breathing Visualizer */}
+          <div className="py-4 flex flex-col items-center justify-center">
+            <div
+              className={`w-44 h-44 sm:w-48 sm:h-48 rounded-full border-2 flex flex-col items-center justify-center transition-all duration-1000 shadow-xl ${
+                isBreathing
+                  ? breathePhase === 'Inhale'
+                    ? 'scale-110 border-dustyRose bg-[#faecea]'
+                    : breathePhase === 'Hold'
+                    ? 'scale-110 border-[#c45b70] bg-[#f7e0dc]'
+                    : 'scale-90 border-[#e8a3af] bg-[#fdf9f7]'
+                  : 'scale-100 border-[#eed4cf] bg-[#fdf8f6]'
               }`}
             >
-              <Volume2 className="w-4 h-4 text-pink-400" />
-              <span>🔔 432Hz Tibetan Singing Bowl</span>
-            </button>
+              <Heart className={`w-6 h-6 text-dustyRose ${isBreathing ? 'animate-pulse fill-dustyRose/40' : ''}`} />
+              <span className="font-editorial text-3xl font-normal italic text-stone-900 mt-1">
+                {isBreathing ? breathePhase : 'Pause'}
+              </span>
+              <span className="text-xs text-dustyRose font-semibold tracking-widest mt-1">
+                {isBreathing ? `${breatheSeconds}s` : 'Tap to Begin'}
+              </span>
+            </div>
 
-            <button
-              onClick={() => playAmbient('rain')}
-              className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-semibold transition-all ${
-                activeSound === 'rain'
-                  ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/40 scale-105'
-                  : 'bg-mindDark-850 text-slate-200 hover:text-white hover:bg-mindDark-800 border border-pink-500/20'
-              }`}
-            >
-              <Volume2 className="w-4 h-4 text-pink-400" />
-              <span>🌧️ Gentle Rain Shower</span>
-            </button>
-
-            <button
-              onClick={() => playAmbient('ocean')}
-              className={`flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-semibold transition-all ${
-                activeSound === 'ocean'
-                  ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/40 scale-105'
-                  : 'bg-mindDark-850 text-slate-200 hover:text-white hover:bg-mindDark-800 border border-pink-500/20'
-              }`}
-            >
-              <Volume2 className="w-4 h-4 text-pink-400" />
-              <span>🌊 Ambient Ocean Tide</span>
-            </button>
-
-            {activeSound && (
+            {/* Breathing Button & Audio Controls */}
+            <div className="pt-6 flex flex-wrap items-center justify-center gap-3">
               <button
-                onClick={stopAllSounds}
-                className="flex items-center gap-1.5 px-4 py-3 rounded-2xl bg-rose-950/60 hover:bg-rose-900/80 text-rose-300 text-xs font-bold border border-rose-800 transition-colors"
+                onClick={() => setIsBreathing(!isBreathing)}
+                className="px-6 py-2.5 rounded-full bg-dustyRose hover:bg-dustyRose-hover text-white text-xs font-semibold uppercase tracking-wider shadow-md shadow-dustyRose/20 hover:scale-105 active:scale-95 transition-all"
               >
-                <VolumeX className="w-4 h-4" />
-                <span>Stop Sound</span>
+                {isBreathing ? 'Pause Breathing' : 'Start Mindful Breath'}
               </button>
-            )}
+
+              <button
+                onClick={() => playAmbient('bowl')}
+                className={`flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-semibold transition-all ${
+                  activeSound === 'bowl'
+                    ? 'bg-stone-900 text-white shadow-md'
+                    : 'bg-[#faecea] text-stone-800 hover:bg-[#f6deda] border border-[#f0dbd7]'
+                }`}
+              >
+                <Volume2 className="w-3.5 h-3.5 text-dustyRose" />
+                <span>🔔 432Hz Tibetan Chime</span>
+              </button>
+
+              <button
+                onClick={() => playAmbient('rain')}
+                className={`flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-semibold transition-all ${
+                  activeSound === 'rain'
+                    ? 'bg-stone-900 text-white shadow-md'
+                    : 'bg-[#faecea] text-stone-800 hover:bg-[#f6deda] border border-[#f0dbd7]'
+                }`}
+              >
+                <Volume2 className="w-3.5 h-3.5 text-dustyRose" />
+                <span>🌧️ Soothing Rain</span>
+              </button>
+
+              {activeSound && (
+                <button
+                  onClick={stopAllSounds}
+                  className="px-3.5 py-2.5 rounded-full bg-rose-100 hover:bg-rose-200 text-rose-800 text-xs font-bold transition-colors"
+                >
+                  <VolumeX className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </section>
 
       {/* =========================================================================
-          SECTION 3: LUXURY BENTO GRID ("EXPLORE THE ECOSYSTEM")
+          SECTION 5: WELCOME TO THE PATH OF HEALING (3-Column Editorial Offerings)
          ========================================================================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center space-y-3 max-w-2xl mx-auto">
-          <div className="inline-block px-3.5 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider">
-            Reimagined Care Architecture
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Designed for Peace of Mind
+          <span className="text-xs font-semibold tracking-widest text-dustyRose uppercase">
+            Holistic Offerings
+          </span>
+          <h2 className="font-editorial text-4xl sm:text-5xl text-stone-900 font-normal italic">
+            Welcome to the Path of Healing
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
-            Every feature on MindEase is engineered to remove anxiety from seeking professional help.
+          <p className="text-stone-600 text-xs sm:text-sm">
+            Evidence-based therapeutic modalities blended with deep human compassion.
           </p>
         </div>
 
-        {/* 4-Piece Modern Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          
-          {/* Bento 1: Large Span (Col 8) */}
-          <div className="md:col-span-8 bento-card p-8 sm:p-10 flex flex-col justify-between space-y-6">
-            <div className="space-y-4">
-              <span className="inline-block px-3 py-1 rounded-full bg-pink-500/15 text-pink-400 text-xs font-bold uppercase tracking-wider">
-                Personalized Care
-              </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-                Individual, Couples & Adolescent Therapy
-              </h3>
-              <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
-                Whether you prefer the privacy of encrypted online telehealth from home or the serene ambiance of our boutique clinic, our therapists customize each session around your emotional comfort.
-              </p>
-
-              {/* Feature pills */}
-              <div className="flex flex-wrap gap-2 pt-2">
-                <span className="px-3 py-1 rounded-lg bg-pink-500/10 text-pink-300 text-xs font-semibold border border-pink-500/20">
-                  ✓ Cognitive Behavioral Therapy (CBT)
-                </span>
-                <span className="px-3 py-1 rounded-lg bg-pink-500/10 text-pink-300 text-xs font-semibold border border-pink-500/20">
-                  ✓ Somatic Nervous System Reset
-                </span>
-                <span className="px-3 py-1 rounded-lg bg-pink-500/10 text-pink-300 text-xs font-semibold border border-pink-500/20">
-                  ✓ Trauma-Informed Counseling
-                </span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Card 1: Anxiety */}
+          <div className="bg-white rounded-3xl overflow-hidden card-soft-rose border border-[#f0dbd7] card-hover-lift flex flex-col justify-between">
+            <div>
+              <div className="h-64 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=700&q=80"
+                  alt="Anxiety grounding therapy"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+              <div className="p-7 space-y-3 text-center">
+                <h3 className="font-editorial text-2xl text-stone-900 font-normal italic">
+                  Anxiety & Emotional Grounding
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
+                  Quiet chronic overthinking, soothe panic triggers, and retrain your nervous system using Cognitive Behavioral Therapy (CBT) and somatic breathwork.
+                </p>
               </div>
             </div>
-
-            <div className="pt-4 border-t border-pink-500/15 flex items-center justify-between">
-              <span className="text-xs text-slate-400 font-medium">Session Duration: 50 Minutes</span>
-              <Link to="/services" className="inline-flex items-center gap-1.5 text-xs font-bold text-pink-400 hover:text-pink-300">
-                <span>View Full Clinical Menu</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Bento 2: Tall Highlight (Col 4) */}
-          <div className="md:col-span-4 bento-card p-8 flex flex-col justify-between space-y-6 bg-gradient-to-b from-mindDark-900 to-pink-950/20">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-pink-500 to-rose-600 text-white flex items-center justify-center shadow-lg shadow-pink-500/30">
-                <MessageSquare className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-bold text-white">
-                24/7 Compassionate AI Companion
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Need immediate grounding late at night? Our interactive assistant provides instant de-escalation tools, breathing rhythms, and crisis hotline guidance whenever you need an ear.
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-2xl bg-mindDark-950/80 border border-pink-500/20 text-xs text-slate-300 space-y-1.5">
-              <span className="text-[10px] text-pink-400 font-bold uppercase tracking-wider block">Quick Trigger:</span>
-              <p className="italic">"I'm feeling an anxiety attack right now, please help me calm down."</p>
-            </div>
-          </div>
-
-          {/* Bento 3: Square (Col 4) */}
-          <div className="md:col-span-4 bento-card p-8 flex flex-col justify-between space-y-6">
-            <div className="space-y-4">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-bold text-white">
-                100% Confidential & Secure
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Bank-level 256-bit encryption. Strict HIPAA compliance guarantees that your records and personal stories remain strictly between you and your doctor.
-              </p>
-            </div>
-            <div className="text-[11px] text-emerald-400 font-semibold flex items-center gap-1.5">
-              <Check className="w-4 h-4" />
-              <span>Zero third-party insurance data leakage</span>
-            </div>
-          </div>
-
-          {/* Bento 4: Wide Span (Col 8) */}
-          <div className="md:col-span-8 bento-card p-8 sm:p-10 flex flex-col justify-between space-y-6">
-            <div className="space-y-4">
-              <span className="inline-block px-3 py-1 rounded-full bg-pink-500/15 text-pink-400 text-xs font-bold uppercase tracking-wider">
-                Instant Scheduling
-              </span>
-              <h3 className="text-2xl font-extrabold text-white">
-                3-Step Frictionless Booking Wizard
-              </h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                No endless phone calls, no insurance paperwork nightmares. Pick your doctor, pick your time slot, and your session is locked into the clinic calendar in under 60 seconds.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-3 gap-3 pt-2 text-center text-xs">
-              <div className="p-3 rounded-xl bg-mindDark-950/70 border border-pink-500/20">
-                <span className="block font-bold text-pink-400">Step 1</span>
-                <span className="text-[11px] text-slate-400">Basic Details</span>
-              </div>
-              <div className="p-3 rounded-xl bg-mindDark-950/70 border border-pink-500/20">
-                <span className="block font-bold text-pink-400">Step 2</span>
-                <span className="text-[11px] text-slate-400">Doctor & Slot</span>
-              </div>
-              <div className="p-3 rounded-xl bg-mindDark-950/70 border border-pink-500/20">
-                <span className="block font-bold text-pink-400">Step 3</span>
-                <span className="text-[11px] text-slate-400">Instant Confirm</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* =========================================================================
-          SECTION 4: INTERACTIVE "HOW ARE YOU FEELING TODAY?" CARE PATH FINDER
-         ========================================================================= */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
-        <div className="text-center space-y-3">
-          <div className="inline-block px-3.5 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider">
-            Interactive Care Matching
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            How Are You Feeling Right Now?
-          </h2>
-          <p className="text-slate-400 text-sm max-w-lg mx-auto">
-            Select your current emotional state to instantly unlock tailored clinical guidance.
-          </p>
-        </div>
-
-        {/* Mood Selector Pills */}
-        <div className="flex flex-wrap justify-center gap-2.5">
-          {[
-            { id: 'anxiety', emoji: '😰', label: 'Overwhelmed & Racing Thoughts' },
-            { id: 'depression', emoji: '🌧️', label: 'Numb, Sad & Low Energy' },
-            { id: 'couples', emoji: '💔', label: 'Relationship Disconnection' },
-            { id: 'burnout', emoji: '⚡', label: 'Chronic Workplace Burnout' },
-            { id: 'growth', emoji: '🌸', label: 'Searching for Inner Calm' }
-          ].map((m) => (
-            <button
-              key={m.id}
-              onClick={() => setSelectedMood(m.id)}
-              className={`flex items-center gap-2 px-5 py-3 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
-                selectedMood === m.id
-                  ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-500/35 scale-105'
-                  : 'bg-mindDark-900 text-slate-300 hover:text-white hover:bg-mindDark-850 border border-pink-500/20'
-              }`}
-            >
-              <span>{m.emoji}</span>
-              <span>{m.label}</span>
-            </button>
-          ))}
-        </div>
-
-        {/* Dynamic Card */}
-        {moodRecommendations[selectedMood] && (
-          <div className="bento-card p-6 sm:p-10 shadow-2xl grid grid-cols-1 md:grid-cols-3 gap-6 items-center animate-in fade-in duration-300">
-            <div className="md:col-span-2 space-y-3">
-              <span className="text-xs font-bold text-pink-400 tracking-wider uppercase">
-                Recommended Healing Pathway:
-              </span>
-              <h3 className="text-xl sm:text-2xl font-bold text-white">
-                {moodRecommendations[selectedMood].title}
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                {moodRecommendations[selectedMood].desc}
-              </p>
-              <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-2 text-xs text-pink-300">
-                <span className="flex items-center gap-1.5 font-bold text-white">
-                  <Award className="w-4 h-4 text-pink-400" />
-                  {moodRecommendations[selectedMood].doctor}
-                </span>
-                <span className="hidden sm:inline text-slate-500">•</span>
-                <span>{moodRecommendations[selectedMood].role}</span>
-                <span className="hidden sm:inline text-slate-500">•</span>
-                <span className="text-amber-400 font-semibold">{moodRecommendations[selectedMood].rating}</span>
-              </div>
-            </div>
-
-            <div className="text-center md:text-right">
+            <div className="p-7 pt-0 text-center">
               <Link
-                to={moodRecommendations[selectedMood].link}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white text-xs sm:text-sm font-bold shadow-lg shadow-pink-500/30 hover:scale-105 active:scale-95 transition-all"
+                to="/services"
+                className="inline-block px-6 py-2.5 rounded-full border border-dustyRose text-dustyRose hover:bg-dustyRose hover:text-white text-xs font-semibold uppercase tracking-wider transition-all"
               >
-                <span>Book With This Specialist</span>
-                <ArrowRight className="w-4 h-4" />
+                Learn More
               </Link>
             </div>
           </div>
-        )}
-      </section>
 
-      {/* =========================================================================
-          SECTION 5: THE MINDEASE DIFFERENCE (COMPARISON TABLE)
-         ========================================================================= */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 space-y-8">
-        <div className="text-center space-y-3">
-          <div className="inline-block px-3.5 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider">
-            Why Patients Choose Us
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Traditional Clinic vs MindEase Sanctuary
-          </h2>
-        </div>
-
-        <div className="bento-card overflow-hidden shadow-2xl">
-          <div className="grid grid-cols-2 text-center text-xs sm:text-sm font-bold border-b border-pink-500/20">
-            <div className="p-4 bg-slate-900/60 text-slate-400">Traditional Clinical System</div>
-            <div className="p-4 bg-pink-500/15 text-pink-300 border-l border-pink-500/20">MindEase Digital Sanctuary 🌸</div>
-          </div>
-
-          <div className="divide-y divide-pink-500/15 text-xs sm:text-sm">
-            {[
-              { trad: '3 to 6-month bureaucratic waitlists', ease: 'Instant booking with same-week appointments' },
-              { trad: 'Cold, intimidating hospital waiting rooms', ease: 'Comfort of home video or tranquil boutique suites' },
-              { trad: 'Zero support between weekly sessions', ease: '24/7 AI mental wellness companion & breathing tools' },
-              { trad: 'Hidden fees & complex insurance bills', ease: '100% transparent pricing with zero surprise charges' },
-              { trad: 'Tedious paper intake forms on arrival', ease: '60-second digital intake on your phone or laptop' }
-            ].map((row, i) => (
-              <div key={i} className="grid grid-cols-2 p-4 text-center items-center">
-                <div className="text-slate-400 px-2 line-through opacity-75">{row.trad}</div>
-                <div className="text-white font-semibold px-2 border-l border-pink-500/15 text-pink-200">
-                  ✓ {row.ease}
-                </div>
+          {/* Card 2: Depression */}
+          <div className="bg-white rounded-3xl overflow-hidden card-soft-rose border border-[#f0dbd7] card-hover-lift flex flex-col justify-between">
+            <div>
+              <div className="h-64 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?auto=format&fit=crop&w=700&q=80"
+                  alt="Depression recovery and compassionate listening"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                />
               </div>
-            ))}
+              <div className="p-7 space-y-3 text-center">
+                <h3 className="font-editorial text-2xl text-stone-900 font-normal italic">
+                  Depression & Hope Reconnection
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
+                  Gentle, zero-judgment spaces to process sorrow, dissolve isolation, and safely awaken your vital inner energy and purpose.
+                </p>
+              </div>
+            </div>
+            <div className="p-7 pt-0 text-center">
+              <Link
+                to="/services"
+                className="inline-block px-6 py-2.5 rounded-full border border-dustyRose text-dustyRose hover:bg-dustyRose hover:text-white text-xs font-semibold uppercase tracking-wider transition-all"
+              >
+                Learn More
+              </Link>
+            </div>
+          </div>
+
+          {/* Card 3: Couples & Relationships */}
+          <div className="bg-white rounded-3xl overflow-hidden card-soft-rose border border-[#f0dbd7] card-hover-lift flex flex-col justify-between">
+            <div>
+              <div className="h-64 overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1544717302-de2939b7ef71?auto=format&fit=crop&w=700&q=80"
+                  alt="Couples and relationship therapy"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+              <div className="p-7 space-y-3 text-center">
+                <h3 className="font-editorial text-2xl text-stone-900 font-normal italic">
+                  Couples & Relational Healing
+                </h3>
+                <p className="text-xs text-stone-600 leading-relaxed">
+                  Heal attachment strains, resolve unspoken resentment, and foster deeper mutual understanding in your partnership.
+                </p>
+              </div>
+            </div>
+            <div className="p-7 pt-0 text-center">
+              <Link
+                to="/services"
+                className="inline-block px-6 py-2.5 rounded-full border border-dustyRose text-dustyRose hover:bg-dustyRose hover:text-white text-xs font-semibold uppercase tracking-wider transition-all"
+              >
+                Learn More
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
       {/* =========================================================================
-          SECTION 6: CURATED SPECIALIST FACULTY SPOTLIGHT
+          SECTION 6: CERTIFIED CLINICAL FACULTY (Meet Your Guides)
          ========================================================================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-          <div className="space-y-2 max-w-xl">
-            <div className="inline-block px-3.5 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider">
-              Licensed Clinical Faculty
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-              Meet Top Certified Doctors
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-[#eedcd8] pb-4">
+          <div className="space-y-1">
+            <span className="text-xs font-semibold tracking-widest text-dustyRose uppercase">
+              Certified Faculty
+            </span>
+            <h2 className="font-editorial text-3xl sm:text-4xl text-stone-900 font-normal italic">
+              Meet Your Healing Guides
             </h2>
-            <p className="text-slate-400 text-sm">
-              Compassionate experts holding 8 to 15+ years of active clinical practice.
-            </p>
           </div>
           <Link
             to="/therapists"
-            className="inline-flex items-center gap-2 text-sm font-bold text-pink-400 hover:text-pink-300"
+            className="text-xs font-semibold tracking-widest text-dustyRose hover:text-dustyRose-hover uppercase flex items-center gap-1"
           >
-            <span>View Full Roster</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>View All Doctors</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
               name: 'Dr. Emily Chen, PhD',
               role: 'Clinical Psychologist',
               spec: 'Anxiety, Panic & Burnout Specialist',
               exp: '12+ Years Exp',
-              img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80',
-              quote: 'My clinical mission is helping individuals unhook from chronic panic and reconnect with their authentic calm.'
+              img: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=600&q=80'
             },
             {
               name: 'Dr. Marcus Johnson, PsyD',
               role: 'Licensed Marriage & Family Counselor',
-              spec: 'Couples & Family Dynamics',
+              spec: 'Couples & Relational Dynamics',
               exp: '10+ Years Exp',
-              img: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=80',
-              quote: 'I provide a neutral, deeply safe harbor for couples to work through unspoken resentment and rediscover intimacy.'
+              img: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=600&q=80'
             },
             {
               name: 'Sarah Williams, LCSW',
               role: 'Clinical Social Worker',
               spec: 'Trauma & Depression Recovery',
               exp: '8+ Years Exp',
-              img: 'https://images.unsplash.com/photo-1594824813580-c11f7c5e532a?auto=format&fit=crop&w=600&q=80',
-              quote: 'Healing is gentle work. We move entirely at your pace, giving your nervous system time to safely unwind.'
+              img: 'https://images.unsplash.com/photo-1594824813580-c11f7c5e532a?auto=format&fit=crop&w=600&q=80'
             }
-          ].map((doc, i) => (
+          ].map((doc, idx) => (
             <div
-              key={i}
-              className="bento-card overflow-hidden shadow-xl flex flex-col justify-between"
+              key={idx}
+              className="bg-white rounded-3xl overflow-hidden card-soft-rose border border-[#f0dbd7] p-6 text-center space-y-4 card-hover-lift"
             >
-              <div>
-                <div className="h-60 overflow-hidden relative">
-                  <img src={doc.img} alt={doc.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-pink-950/80 backdrop-blur-md text-[11px] font-bold text-pink-200 border border-pink-500/30 flex items-center gap-1 shadow-sm">
-                    <Award className="w-3.5 h-3.5 text-pink-400" />
-                    <span>{doc.exp}</span>
-                  </div>
-                </div>
-                <div className="p-6 space-y-3">
-                  <div>
-                    <h3 className="text-xl font-bold text-white">{doc.name}</h3>
-                    <p className="text-xs font-semibold text-pink-400 mt-0.5">{doc.role}</p>
-                  </div>
-                  <div className="inline-block px-2.5 py-0.5 rounded-md bg-pink-500/10 text-[11px] text-pink-300 font-medium">
-                    {doc.spec}
-                  </div>
-                  <p className="text-xs text-slate-400 leading-relaxed italic">
-                    "{doc.quote}"
-                  </p>
-                </div>
+              <div className="w-32 h-32 rounded-full overflow-hidden mx-auto border-4 border-[#faecea] shadow-md">
+                <img src={doc.img} alt={doc.name} className="w-full h-full object-cover" />
               </div>
-              <div className="p-6 pt-0">
+              <div>
+                <h3 className="font-editorial text-2xl font-normal italic text-stone-900">{doc.name}</h3>
+                <p className="text-xs text-dustyRose font-semibold tracking-wide uppercase mt-0.5">{doc.role}</p>
+                <p className="text-xs text-stone-500 mt-1">{doc.spec} • {doc.exp}</p>
+              </div>
+              <div className="pt-2">
                 <Link
                   to={`/book?doctor=${encodeURIComponent(doc.name)}`}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-gradient-to-r from-pink-500/15 to-rose-500/15 hover:from-pink-500 hover:to-rose-500 text-pink-300 hover:text-white text-xs font-bold border border-pink-500/30 hover:border-pink-500 transition-all shadow-sm hover:scale-[1.02] active:scale-98"
+                  className="inline-block w-full py-2.5 rounded-full bg-[#fbf2f0] hover:bg-dustyRose hover:text-white text-stone-800 text-xs font-semibold uppercase tracking-wider transition-all"
                 >
-                  <Calendar className="w-3.5 h-3.5" />
-                  <span>Book with {doc.name.split(' ')[1]}</span>
+                  Book with {doc.name.split(' ')[1]}
                 </Link>
               </div>
             </div>
@@ -891,62 +575,49 @@ const Home = () => {
       </section>
 
       {/* =========================================================================
-          SECTION 7: AUTHENTIC PATIENT STORIES & REVIEWS
+          SECTION 7: CLIENT REFLECTIONS & TESTIMONIALS
          ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="text-center space-y-3 max-w-2xl mx-auto">
-          <div className="inline-block px-3.5 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider">
-            Patient Testimonials
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Real Stories, Genuine Healing
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-12">
+        <div className="space-y-2">
+          <span className="text-xs font-semibold tracking-widest text-dustyRose uppercase">
+            Client Reflections
+          </span>
+          <h2 className="font-editorial text-3xl sm:text-5xl text-stone-900 font-normal italic">
+            Voices of Awakening & Peace
           </h2>
-          <p className="text-slate-400 text-sm">
-            Read how everyday individuals reclaimed their joy through MindEase.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           {[
             {
-              name: 'Sarah M.',
-              since: 'Patient since 2024',
-              quote: 'MindEase provided me with the tools I needed to overcome severe daily anxiety. Dr. Chen is extraordinarily compassionate, insightful, and always present.',
-              initial: 'S'
+              quote: "MindEase gave me my breath back when the world felt too heavy. Dr. Chen is an extraordinary beacon of kindness.",
+              author: "Sarah M.",
+              role: "MindEase Patient"
             },
             {
-              name: 'James D.',
-              since: 'Patient since 2025',
-              quote: 'I was skeptical about online therapy at first, but the seamless booking and the empathy of my counselor completely changed my view on mental wellness.',
-              initial: 'J'
+              quote: "Our marriage felt disconnected for years. Two months into couples counseling, we found each other again.",
+              author: "James & Lisa D.",
+              role: "Couples Therapy"
             },
             {
-              name: 'Priya K.',
-              since: 'Patient since 2026',
-              quote: 'The CBT exercises and breathing tools gave me my confidence back after months of burnout. I finally look forward to waking up in the morning.',
-              initial: 'P'
+              quote: "The grounding exercises and somatic sessions completely transformed how I handle daily corporate burnout.",
+              author: "Priya K.",
+              role: "Executive Wellness"
             }
-          ].map((t, i) => (
+          ].map((item, idx) => (
             <div
-              key={i}
-              className="bento-card p-7 space-y-4 flex flex-col justify-between shadow-xl"
+              key={idx}
+              className="bg-white rounded-3xl p-8 border border-[#f0dbd7] card-soft-rose space-y-4 flex flex-col justify-between"
             >
-              <div className="flex gap-1 text-amber-400">
-                {[...Array(5)].map((_, idx) => (
-                  <Star key={idx} className="w-4 h-4 fill-amber-400" />
-                ))}
+              <div className="text-amber-400 flex justify-center text-xs">
+                ★★★★★
               </div>
-              <p className="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
-                "{t.quote}"
+              <p className="font-editorial italic text-base sm:text-lg text-stone-800 leading-relaxed">
+                "{item.quote}"
               </p>
-              <div className="flex items-center gap-3 pt-4 border-t border-pink-500/15">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-pink-500 to-rose-600 text-white font-bold flex items-center justify-center shadow-md shadow-pink-500/30">
-                  {t.initial}
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-white">{t.name}</h4>
-                  <p className="text-[11px] text-slate-400">{t.since}</p>
-                </div>
+              <div className="pt-2 border-t border-[#f6e7e4]">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-stone-900">{item.author}</h4>
+                <p className="text-[11px] text-dustyRose">{item.role}</p>
               </div>
             </div>
           ))}
@@ -954,19 +625,16 @@ const Home = () => {
       </section>
 
       {/* =========================================================================
-          SECTION 8: INTERACTIVE FAQ ACCORDION (SMOOTH DROPDOWNS)
+          SECTION 8: INTERACTIVE ACCORDION FAQ
          ========================================================================= */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
-        <div className="text-center space-y-3">
-          <div className="inline-block px-3.5 py-1 rounded-full bg-pink-500/10 text-pink-400 text-xs font-bold uppercase tracking-wider">
+        <div className="text-center space-y-2">
+          <span className="text-xs font-semibold tracking-widest text-dustyRose uppercase">
             Clarity & Guidance
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Frequently Asked Questions
+          </span>
+          <h2 className="font-editorial text-3xl sm:text-4xl text-stone-900 font-normal italic">
+            Common Inquiries
           </h2>
-          <p className="text-slate-400 text-sm">
-            Everything you need to know about embarking on therapy with us.
-          </p>
         </div>
 
         <div className="space-y-3">
@@ -975,22 +643,22 @@ const Home = () => {
             return (
               <div
                 key={idx}
-                className="bento-card overflow-hidden shadow-sm"
+                className="bg-white rounded-2xl border border-[#f0dbd7] overflow-hidden shadow-sm"
               >
                 <button
                   type="button"
                   onClick={() => setOpenFaq(isOpen ? null : idx)}
-                  className="w-full p-5 text-left flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-white hover:text-pink-300 transition-colors cursor-pointer"
+                  className="w-full p-5 text-left flex items-center justify-between gap-4 font-editorial italic text-base sm:text-lg text-stone-900 hover:text-dustyRose transition-colors cursor-pointer"
                 >
                   <span>{faq.q}</span>
                   {isOpen ? (
-                    <ChevronUp className="w-4 h-4 text-pink-400 shrink-0" />
+                    <ChevronUp className="w-4 h-4 text-dustyRose shrink-0" />
                   ) : (
-                    <ChevronDown className="w-4 h-4 text-slate-400 shrink-0" />
+                    <ChevronDown className="w-4 h-4 text-stone-400 shrink-0" />
                   )}
                 </button>
                 {isOpen && (
-                  <div className="px-5 pb-5 pt-0 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-pink-500/15 pt-3">
+                  <div className="px-5 pb-5 text-xs sm:text-sm text-stone-600 leading-relaxed border-t border-[#faecea] pt-3">
                     {faq.a}
                   </div>
                 )}
@@ -1001,42 +669,34 @@ const Home = () => {
       </section>
 
       {/* =========================================================================
-          SECTION 9: CRISIS HOTLINE & FINAL GRAND CONSULTATION CTA
+          SECTION 9: CLOSING INVITATION & CRISIS 988 RIBBON
          ========================================================================= */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6">
-        <div className="rounded-3xl bg-gradient-to-r from-pink-950/60 via-mindDark-900 to-pink-950/60 border border-pink-500/35 p-10 sm:p-14 text-center space-y-6 shadow-2xl relative overflow-hidden">
-          <div className="absolute -top-12 -right-12 w-64 h-64 bg-pink-500/20 blur-[80px] rounded-full pointer-events-none"></div>
-          <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-rose-500/20 blur-[80px] rounded-full pointer-events-none"></div>
-
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-950/80 border border-rose-800 text-rose-300 text-xs font-semibold">
-            <Phone className="w-3.5 h-3.5 text-rose-400 animate-pulse" />
-            <span>24/7 National Emergency Hotline: 988 (Always Free & Confidential)</span>
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+        <div className="rounded-3xl bg-gradient-to-b from-[#fbf2f0] to-[#faecea] border border-[#eed4cf] p-10 sm:p-14 space-y-6 card-soft-rose">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-stone-800 text-xs font-semibold shadow-sm">
+            <Phone className="w-3.5 h-3.5 text-dustyRose animate-pulse" />
+            <span>24/7 National Emergency Hotline: 988 (Always Confidential)</span>
           </div>
 
-          <h3 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-            Your peaceful tomorrow begins today.
+          <h3 className="font-editorial text-4xl sm:text-6xl text-stone-900 font-normal italic">
+            Begin Your Gentle Awakening
           </h3>
-          <p className="text-slate-300 max-w-xl mx-auto text-sm sm:text-base leading-relaxed">
-            Take that gentle first step. Connect with our licensed psychologists and begin reclaiming your inner calm.
+
+          <p className="text-stone-600 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
+            Take that quiet, brave step today. Schedule a private consultation with our licensed psychologists and allow healing to bloom.
           </p>
 
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="pt-2">
             <Link
               to="/book"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-gradient-to-r from-pink-500 via-rose-500 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-bold text-sm sm:text-base shadow-xl shadow-pink-500/40 hover:scale-105 active:scale-95 transition-all duration-300"
+              className="inline-block px-10 py-4 rounded-full bg-dustyRose hover:bg-dustyRose-hover text-white text-xs font-semibold uppercase tracking-widest shadow-lg shadow-dustyRose/30 hover:scale-105 active:scale-95 transition-all duration-300"
             >
-              <span>Schedule Initial Consultation</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              to="/contact"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-mindDark-850 hover:bg-pink-500/10 text-slate-200 hover:text-pink-300 font-semibold text-sm sm:text-base border border-pink-500/30 transition-all duration-300"
-            >
-              <span>Speak with Clinic Staff</span>
+              Book a Session
             </Link>
           </div>
         </div>
       </section>
+
     </div>
   );
 };

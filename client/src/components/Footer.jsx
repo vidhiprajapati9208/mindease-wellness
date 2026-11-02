@@ -1,145 +1,159 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Phone, Mail, MessageCircle, Share2, Globe, Heart } from 'lucide-react';
+import { MapPin, Phone, Mail, MessageCircle, Share2, Globe, Heart, Sparkles } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="bg-mindDark-950 border-t border-mindDark-border/60 text-slate-400">
+    <footer className="bg-[#fbf4f2] dark:bg-[#140b12] border-t border-[#ecd8d4] dark:border-[#3e2237] text-stone-600 dark:text-stone-300 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Col 1: Brand & About */}
+          
+          {/* Col 1: Brand & Philosophy */}
           <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white shadow-md shadow-pink-500/25 group-hover:scale-105 transition-transform">
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <div className="w-8 h-8 rounded-full bg-dustyRose flex items-center justify-center text-white shadow-sm shadow-dustyRose/30 group-hover:scale-105 transition-transform">
                 <Heart className="w-4 h-4 fill-white" />
               </div>
-              <span className="text-xl font-bold text-white tracking-tight">
-                Mind<span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-rose-500">Ease</span>
+              <span className="font-editorial text-2xl italic tracking-wide text-stone-900 dark:text-rose-100 font-normal">
+                MindEase
               </span>
             </Link>
-            <p className="text-sm text-slate-400 leading-relaxed">
-              Your mental wellness matters. We provide a safe, compassionate, and professional space to help you heal, grow, and reclaim peace in your daily life.
+            <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed font-normal">
+              A serene sanctuary dedicated to emotional restoration, self-discovery, and evidence-based psychological wellness. Guided by compassion and clinical excellence.
             </p>
-            {/* Social Icons matching Fig 14.1 */}
-            <div className="flex items-center gap-3 pt-2">
+            {/* Social Icons */}
+            <div className="flex items-center gap-2.5 pt-2">
               <a
-                href="#message"
-                className="w-9 h-9 rounded-full bg-mindDark-850 hover:bg-pink-500 hover:text-white hover:border-pink-500 hover:scale-110 flex items-center justify-center text-slate-400 transition-all border border-mindDark-border shadow-sm"
+                href="#sanctuary"
+                className="w-8 h-8 rounded-full bg-white dark:bg-[#200f1c] hover:bg-dustyRose hover:text-white flex items-center justify-center text-stone-500 dark:text-stone-300 transition-all border border-[#ecd8d4] dark:border-pink-500/20 shadow-sm"
+                aria-label="Message Community"
               >
-                <MessageCircle className="w-4 h-4" />
+                <MessageCircle className="w-3.5 h-3.5" />
               </a>
               <a
-                href="#share"
-                className="w-9 h-9 rounded-full bg-mindDark-850 hover:bg-pink-500 hover:text-white hover:border-pink-500 hover:scale-110 flex items-center justify-center text-slate-400 transition-all border border-mindDark-border shadow-sm"
+                href="#connect"
+                className="w-8 h-8 rounded-full bg-white dark:bg-[#200f1c] hover:bg-dustyRose hover:text-white flex items-center justify-center text-stone-500 dark:text-stone-300 transition-all border border-[#ecd8d4] dark:border-pink-500/20 shadow-sm"
+                aria-label="Share Sanctuary"
               >
-                <Share2 className="w-4 h-4" />
+                <Share2 className="w-3.5 h-3.5" />
               </a>
               <a
-                href="#web"
-                className="w-9 h-9 rounded-full bg-mindDark-850 hover:bg-pink-500 hover:text-white hover:border-pink-500 hover:scale-110 flex items-center justify-center text-slate-400 transition-all border border-mindDark-border shadow-sm"
+                href="#portal"
+                className="w-8 h-8 rounded-full bg-white dark:bg-[#200f1c] hover:bg-dustyRose hover:text-white flex items-center justify-center text-stone-500 dark:text-stone-300 transition-all border border-[#ecd8d4] dark:border-pink-500/20 shadow-sm"
+                aria-label="Global Network"
               >
-                <Globe className="w-4 h-4" />
+                <Globe className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
 
-          {/* Col 2: Quick Links */}
+          {/* Col 2: Navigation Links */}
           <div>
-            <h4 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
-              Quick Links
+            <h4 className="text-xs font-bold text-stone-900 dark:text-rose-100 tracking-[0.2em] uppercase mb-4">
+              Explore Sanctuary
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-xs sm:text-sm">
               <li>
-                <Link to="/about" className="hover:text-mindCyan transition-colors">
-                  About Us
+                <Link to="/about" className="hover:text-dustyRose transition-colors">
+                  Our Story & Philosophy
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="hover:text-mindCyan transition-colors">
-                  Our Services
+                <Link to="/therapists" className="hover:text-dustyRose transition-colors">
+                  Certified Therapists & Faculty
                 </Link>
               </li>
               <li>
-                <Link to="/blog" className="hover:text-mindCyan transition-colors">
-                  Resources & Blog
+                <Link to="/services" className="hover:text-dustyRose transition-colors">
+                  Specialized Healing Services
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-mindCyan transition-colors">
-                  Contact Us
+                <Link to="/blog" className="hover:text-dustyRose transition-colors">
+                  Wellness Articles & Library
                 </Link>
               </li>
               <li>
-                <Link to="/dashboard" className="hover:text-mindCyan transition-colors">
-                  Clinic Roster
+                <Link to="/book" className="hover:text-dustyRose transition-colors font-semibold text-dustyRose">
+                  Book a Consultation
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 3: Services */}
+          {/* Col 3: Clinical Specializations */}
           <div>
-            <h4 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
-              Services
+            <h4 className="text-xs font-bold text-stone-900 dark:text-rose-100 tracking-[0.2em] uppercase mb-4">
+              Therapeutic Areas
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-xs sm:text-sm">
               <li>
-                <Link to="/services" className="hover:text-mindCyan transition-colors">
-                  Anxiety Therapy
+                <Link to="/services" className="hover:text-dustyRose transition-colors">
+                  Anxiety & Stress Recovery
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="hover:text-mindCyan transition-colors">
-                  Depression Counseling
+                <Link to="/services" className="hover:text-dustyRose transition-colors">
+                  Depression & Mood Therapy
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="hover:text-mindCyan transition-colors">
-                  Stress Management
+                <Link to="/services" className="hover:text-dustyRose transition-colors">
+                  Cognitive Behavioral Therapy (CBT)
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="hover:text-mindCyan transition-colors">
-                  Family Therapy
+                <Link to="/services" className="hover:text-dustyRose transition-colors">
+                  Couples & Relationship Guidance
                 </Link>
               </li>
               <li>
-                <Link to="/therapists" className="hover:text-mindCyan transition-colors">
-                  Licensed Therapists
+                <Link to="/services" className="hover:text-dustyRose transition-colors">
+                  Mindfulness & Meditation Coaching
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 4: Get In Touch */}
+          {/* Col 4: Sanctuary Location & Emergency */}
           <div>
-            <h4 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
-              Get In Touch
+            <h4 className="text-xs font-bold text-stone-900 dark:text-rose-100 tracking-[0.2em] uppercase mb-4">
+              Visit or Connect
             </h4>
-            <ul className="space-y-3.5 text-sm">
+            <ul className="space-y-3.5 text-xs sm:text-sm">
               <li className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-pink-400 shrink-0 mt-1" />
-                <span>123 Wellness Avenue, Health District, NY 10001</span>
+                <MapPin className="w-4 h-4 text-dustyRose shrink-0 mt-0.5" />
+                <span>123 Sanctuary Way, Wellness Gardens, Suite 400</span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-pink-400 shrink-0" />
-                <span>+1 (800) 123-4567</span>
+                <Phone className="w-4 h-4 text-dustyRose shrink-0" />
+                <span>+1 (800) 123-EASE (3273)</span>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-pink-400 shrink-0" />
-                <a href="mailto:support@mindease.com" className="hover:text-pink-300 transition-colors">
-                  support@mindease.com
+                <Mail className="w-4 h-4 text-dustyRose shrink-0" />
+                <a href="mailto:support@mindease.com" className="hover:text-dustyRose transition-colors">
+                  sanctuary@mindease.com
                 </a>
+              </li>
+              <li className="pt-1">
+                <div className="p-2.5 rounded-xl bg-[#faecea] dark:bg-[#200f1c] border border-[#ecd8d4] dark:border-pink-500/20 text-[11px] text-[#7a4853] dark:text-pink-300">
+                  <span className="font-bold">24/7 Crisis Hotline:</span> Call or text{' '}
+                  <a href="tel:988" className="font-bold underline text-dustyRose">
+                    988
+                  </a>
+                </div>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom copyright */}
-        <div className="mt-12 pt-8 border-t border-pink-500/20 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© 2026 MindEase Wellness. All rights reserved.</p>
-          <p className="flex items-center gap-1">
-            Made with <Heart className="w-3.5 h-3.5 text-pink-500 fill-pink-500 animate-pulse" /> for mental wellness
+        {/* Bottom Bar */}
+        <div className="mt-12 pt-8 border-t border-[#ecd8d4] dark:border-pink-500/20 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 dark:text-stone-400 gap-4">
+          <p>© 2026 MindEase Wellness Sanctuary. Designed for serenity and emotional well-being.</p>
+          <p className="flex items-center gap-1.5">
+            Crafted with{' '}
+            <Heart className="w-3.5 h-3.5 text-dustyRose fill-dustyRose animate-pulse" />{' '}
+            for mental clarity
           </p>
         </div>
       </div>

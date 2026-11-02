@@ -8,105 +8,110 @@
   }
 
   :root {
-    /* Dark Mode: Luxury Velvet Midnight Plum */
-    --bg-main: #0c0612;
-    --bg-card: #160b1e;
-    --bg-card-sub: #200f2a;
-    --bg-card-alt: #2b1437;
-    --bg-highlight: #3d1a4e;
-    --border-main: #331540;
+    /* Default / Sanctuary Mode: Ethereal Alabaster Cream & Warm Blush Rose */
+    --bg-main: #fdf9f7;
+    --bg-card: #ffffff;
+    --bg-card-sub: #fbf2f0;
+    --bg-card-alt: #f6e7e4;
+    --bg-highlight: #eed8d4;
+    --border-main: #f0dbd7;
   }
 
-  html.light {
-    /* Light Mode: Soothing Blush Petal & Rose White */
-    --bg-main: #fff5f7;
-    --bg-card: #ffffff;
-    --bg-card-sub: #fdf2f4;
-    --bg-card-alt: #fae5ea;
-    --bg-highlight: #f8cfd9;
-    --border-main: #fce7f3;
+  html.dark {
+    /* Night Haven Mode: Luxury Velvet Mocha Plum */
+    --bg-main: #140b12;
+    --bg-card: #1e111b;
+    --bg-card-sub: #2a1725;
+    --bg-card-alt: #381f32;
+    --bg-highlight: #482740;
+    --border-main: #3e2237;
   }
 
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: var(--bg-main);
+    color: #2b1822;
+    transition: background-color 0.4s ease, color 0.4s ease;
   }
 }
 
-/* Light mode typography & UI overrides */
-html.light body {
-  background-color: #fff5f7;
-  color: #1e293b;
+/* Editorial Serif Headings (Matching the "Blooming Rose" high-end aesthetic) */
+.font-editorial {
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
 }
 
-html.light h1:not([class*="text-transparent"]),
-html.light h2:not([class*="text-transparent"]),
-html.light h3:not([class*="text-transparent"]),
-html.light h4:not([class*="text-transparent"]) {
-  color: #0f172a !important;
+/* Light Mode Overrides */
+html:not(.dark) body {
+  background-color: #fdf9f7;
+  color: #2b1822;
 }
 
-html.light strong.text-white,
-html.light span.text-white,
-html.light p.text-white {
-  color: #0f172a !important;
+html:not(.dark) h1:not([class*="text-transparent"]),
+html:not(.dark) h2:not([class*="text-transparent"]),
+html:not(.dark) h3:not([class*="text-transparent"]),
+html:not(.dark) h4:not([class*="text-transparent"]) {
+  color: #26131c !important;
 }
 
-html.light .text-slate-100,
-html.light .text-slate-200,
-html.light .text-slate-300 {
-  color: #334155 !important;
+html:not(.dark) strong.text-white,
+html:not(.dark) span.text-white,
+html:not(.dark) p.text-white {
+  color: #26131c !important;
 }
 
-html.light .text-slate-400 {
-  color: #64748b !important;
+html:not(.dark) .text-slate-100,
+html:not(.dark) .text-slate-200,
+html:not(.dark) .text-slate-300 {
+  color: #4a343f !important;
+}
+
+html:not(.dark) .text-slate-400 {
+  color: #7a606c !important;
 }
 
 /* Form controls in light mode */
-html.light input:not([type="checkbox"]):not([type="radio"]),
-html.light select,
-html.light textarea {
+html:not(.dark) input:not([type="checkbox"]):not([type="radio"]),
+html:not(.dark) select,
+html:not(.dark) textarea {
   background-color: #ffffff !important;
-  color: #0f172a !important;
-  border-color: #fbcfe8 !important;
+  color: #26131c !important;
+  border-color: #eddcd8 !important;
 }
 
-html.light input::placeholder,
-html.light textarea::placeholder {
-  color: #94a3b8 !important;
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder {
+  color: #a38c97 !important;
 }
 
 /* Action buttons with Pink keep white text */
-html.light .bg-mindCyan,
-html.light .bg-mindPink,
-html.light .bg-pink-500,
-html.light .bg-pink-600,
-html.light .bg-rose-500,
-html.light .bg-rose-600,
-html.light button.bg-mindCyan *,
-html.light a.bg-mindCyan * {
+.bg-dustyRose,
+.bg-mindPink,
+.bg-rose-500,
+.bg-rose-600,
+button.bg-dustyRose *,
+a.bg-dustyRose * {
   color: #ffffff !important;
 }
 
-/* Light Mode Card Shadows with gentle rose aura */
-html.light .bg-mindDark-900 {
-  box-shadow: 0 10px 30px -4px rgba(236, 72, 153, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+/* Soft Rose Shadow for Cards */
+.card-soft-rose {
+  box-shadow: 0 14px 35px -10px rgba(217, 119, 138, 0.15), 0 4px 12px -2px rgba(43, 24, 34, 0.03);
 }
 
 /* Custom Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-main);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border-main);
+  background: #eddcd8;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #ec4899;
+  background: #d9778a;
 }
 
 /* Interactive Animation Utility Classes */
@@ -114,12 +119,12 @@ html.light .bg-mindDark-900 {
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .card-hover-lift:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 35px -10px rgba(236, 72, 153, 0.25);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -10px rgba(217, 119, 138, 0.22);
 }
 
 .text-gradient-rose {
-  background: linear-gradient(135deg, #f472b6 0%, #ec4899 50%, #f43f5e 100%);
+  background: linear-gradient(135deg, #e88d9f 0%, #d9778a 50%, #c45b70 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -128,31 +133,25 @@ html.light .bg-mindDark-900 {
   animation: pulseGlow 3s ease-in-out infinite;
 }
 
-/* Luxury Modern 2026 Bento & Glassmorphism styles */
-.bento-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-main);
-  border-radius: 1.5rem;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
+/* Ethereal Floating Collage styles */
+.collage-image {
+  box-shadow: 0 20px 40px -15px rgba(217, 119, 138, 0.25);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.bento-card:hover {
-  border-color: rgba(236, 72, 153, 0.5);
-  box-shadow: 0 20px 40px -15px rgba(236, 72, 153, 0.18);
-  transform: translateY(-4px);
+.collage-image:hover {
+  transform: scale(1.03);
 }
 
-.glass-panel {
-  background: rgba(22, 11, 30, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(236, 72, 153, 0.2);
+/* Infinite Marquee Strip */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
 }
-
-html.light .glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(252, 231, 243, 0.9);
+.animate-marquee {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee 28s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
